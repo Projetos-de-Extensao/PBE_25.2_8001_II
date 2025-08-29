@@ -1,87 +1,63 @@
+# Casos de Uso
+
+## Criação de uma conta no sistema
+
+* **Atores:**
+    * Usuário (Visitante)
+    * Sistema
+
+* **Pré-Condições:**
+    * (Regra de Negócio) Usuário deve possuir um e-mail institucional válido da própria IBMEC.
+
+* **Fluxo Básico:**
+    1.  Usuário acessa a página de cadastro e seleciona o tipo de perfil: **Candidato (Aluno)** ou **Empregador (Professor/Departamento)**.
+    2.  Usuário fornece nome, e-mail (obrigatoriamente do Ibmec), senha e confirmação de senha.
+    3.  Dados do Usuário são validados pelo Sistema (formato, complexidade da senha, domínio Ibmec).
+    4.  Dados do Usuário são encriptados pelo Sistema.
+    5.  Dados do Usuário são persistidos pelo Sistema com um status inicial de "não verificado".
+    6.  Sistema gera um link de verificação com prazo de expiração.
+    7.  Sistema envia e-mail de verificação, com o link, para o Usuário.
+    8.  Usuário clica no link de confirmação antes de expirar.
+    9.  Sistema atualiza o status do Usuário para "verificado".
+    10. Sistema exibe mensagem de sucesso e redireciona o Usuário para a página de Entrada (Login).
+
+* **Fluxos Alternativos:**
+    * **3a. E-mail do Usuário possui formato inválido ou já está em uso**
+        * 3a1. Sistema exibe mensagem de erro específica ("Formato de e-mail inválido" ou "E-mail já cadastrado").
+    * **3b. Senha do Usuário não respeita as regras de segurança**
+        * 3b1. Sistema exibe mensagem de erro detalhando os requisitos da senha.
+    * **3c. E-mail não pertence ao domínio do Ibmec**
+        * 3c1. Sistema exibe mensagem de erro: "Cadastro permitido apenas com e-mail institucional do Ibmec."
+    * **8a. Usuário tenta confirmar o e-mail depois de o link expirar**
+        * 8a1. Sistema informa que o link expirou e oferece a opção de reenviar um novo e-mail de verificação.
+    * **1a. Usuário seleciona o perfil "Empregador"**
+        * 1a1. (Recomendado) Após o passo 10, o Sistema pode informar ao Empregador que seu cadastro foi recebido e passará por uma aprovação administrativa para garantir sua legitimidade. O perfil fica com o status "pendente de aprovação".
+
 ---
-id: diagrama_de_casos de uso
-title: Diagrama de Casos de Uso
----
 
-## Casos de Uso
+## Entrada do usuário no sistema
 
-### Descrição:
+* **Atores:**
+    * Usuário (Candidato ou Empregador)
+    * Sistema
 
-- Contas
-	- Criação
-	- Entrada
-	- Alteração
-	- Recuperar Senha
-	- Exclusão Lógica
-	- Visualização
+* **Pré-Condições:**
+    * Usuário deve possuir um cadastro ativo e **verificado** na plataforma.
 
-- Perfis
-	- Edição
-	- Pesquisar
-	- Visualização
-	- Seguir/Deixar de Seguir
+* **Fluxo Básico:**
+    1.  Usuário fornece seu e-mail e senha na página de entrada.
+    2.  Sistema valida as credenciais (compara e-mail e hash da senha).
+    3.  Sistema autentica o Usuário e cria uma sessão.
+    4.  Sistema redireciona o Usuário para sua página principal (Dashboard):
+        * Se **Candidato**, redireciona para a página de busca de vagas.
+        * Se **Empregador**, redireciona para o painel de gerenciamento de suas vagas.
 
-- Postagens (Público) 	 	
-	- Criação
-	- Exclusão
-	- Interação
-	- Visualização
-
-- Mensagens (Privado)
-	- Criação
-	- Exclusão
-	- Visualização
-
-- Galerias
-	- Albuns
-- Blogs
-- Grupos
-
-### Criação de uma conta no sistema
-
-* Atores:
-
-	- Usuário
-	- Sistema
-
-- Pré-Condições:
-	- Nenhuma
-
-* Fluxo Básico:
-    1. Usuário fornece e-mail, senha e confirmações
-    2. Dados do Usuário são validados pelo Sistema
-    3. Dados do Usuário são encriptados pelo Sistema
-    4. Dados do Usuário são persistidos pelo Sistema
-    5. Sistema gera um link com prazo de expiração
-    6. Sistema envia e-mail de verificação, com o link, para o Usuário
-    7. Usuário confirma o e-mail antes do link expirar
-    8. Sistema confirma que o Cadastro do Usuário foi realizado com sucesso
-    9. Sistema redireciona o Usuário para a página de Entrada
-
-- Fluxos Alternativos:
-	- 2a. E-mail do Usuário é inválido
-		2a1. Sistema exibe mensagem de erro
-	- 2b. Senha do Usuário não respeita regras de segurança
-		- 2b1. Sistema exibe mensagem de erro
-	- 3a. Usuário tenta confirmar o e-mail depois de o link expirar
-		- 3a1. Sistema sugere que o Usuário realize um novo Cadastro
-
-### Entrada do usuário no sistema
-
-- Atores:
-	- Usuário
-	- Sistema
-
-- Pré-Condições:
-	Usuário deve estar cadastrado
-
-- Fluxo Básico:
-    - 1. Usuário fornece e-mail e senha
-	- 2. Sistema autentica o Usuário
-	- 3. Sistema redireciona o Usuário para a página inicial
-
-- Fluxos Alternativos:
-	- 2a. Dados do Usuário Inválidos
-		- 2a1. Sistema exibe mensagem de erro
-	- 3a. Primeio acesso do Usuário
-		- 3a1. Sistema redireciona o Usuário para a página de edição de perfil
+* **Fluxos Alternativos:**
+    * **2a. E-mail ou senha inválidos**
+        * 2a1. Sistema exibe mensagem "E-mail ou senha incorretos".
+    * **2b. Conta do Usuário não foi verificada por e-mail**
+        * 2b1. Sistema exibe mensagem informando que a conta precisa ser ativada e oferece a opção de reenviar o e-mail de verificação.
+    * **2c. Cadastro do Empregador está "pendente de aprovação"**
+        * 2c1. Sistema autentica, mas exibe uma página informando que o cadastro ainda está em análise pela administração, não permitindo acesso ao dashboard principal.
+    * **4a. Primeiro acesso do Usuário após o cadastro**
+        * 4a1. Sistema redireciona o Usuário para a página de "Complete seu Perfil", incentivando-o a preencher suas informações.
