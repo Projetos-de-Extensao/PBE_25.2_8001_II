@@ -2,6 +2,12 @@
 
 **Código da Disciplina**: IBM8936<br>
 
+##Grupo
+- João Pedro Ginglass (202407260331)
+
+
+
+
 ## Sobre 
 Este projeto consiste no desenvolvimento de uma plataforma web centralizada, denominada "Portal de Monitorias Ibmec", destinada a otimizar e organizar o processo de seleção de monitores acadêmicos exclusivamente para a comunidade do Ibmec.
 
