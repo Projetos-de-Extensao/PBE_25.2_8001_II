@@ -6,7 +6,7 @@
 - João Pedro Ginglass (202407260331)
 - Bruno Carvalho Pessoa (202503440964)
 - Cauan Magalhães Baptista (202501700632)
-
+- Guilherme Machado Viana (202408356404)
 
 
 
