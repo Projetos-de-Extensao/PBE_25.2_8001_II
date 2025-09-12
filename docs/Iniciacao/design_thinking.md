@@ -32,41 +32,66 @@ title: Design Thinking
 
 #### **3.1. Empatia**
 
-- **Pesquisa**: Métodos utilizados para entender o usuário (entrevistas, observação, etc.).
-- **Insights**: Principais descobertas sobre as necessidades, desejos e dores do usuário.
-- **Personas**: Descrição dos perfis de usuários criados com base na pesquisa.
+##### Alunos (candidatos a monitores)
+-Sofrem com falta de centralização das vagas.
+-Passam por processos burocráticos e lentos.
+-Não têm clareza sobre critérios e prazos.
+-Sentem insegurança e ansiedade pela falta de feedback e transparência.
+
+##### Alunos (consumidores de monitoria)
+-Dificuldade para descobrir monitores disponíveis.
+-Agendamento confuso e descentralizado.
+-Não têm avaliações ou referências sobre os monitores.
+
+##### Monitores
+-Enfrentam caos na gestão da agenda.
+-Não têm ferramentas simples para registrar atendimentos.
+-Precisam lidar com “no-shows” sem controle.
+-Encontram burocracia no reporte de horas e atividades.
+
+##### Coordenação
+-Gestão descentralizada em planilhas e e-mails.
+-Falta de visibilidade em tempo real das vagas e processos.
+-Geração de relatórios trabalhosa.
+-Seleção não padronizada entre disciplinas.
+-Comunicação desorganizada com alunos e monitores.
 
 #### **3.2. Definição**
 
-- **Problema Central**: Definição clara do problema a ser resolvido (ex.: "Como podemos...?").
-- **Pontos de Vista (POV)**: Frases que sintetizam as necessidades do usuário e os insights.
+- **Problema Central**: A ausência de uma plataforma integrada para gestão de monitorias gera ineficiência, falta de transparência e sobrecarga administrativa, prejudicando alunos, monitores e coordenação.
 
 #### **3.3. Ideação**
 
-- **Brainstorming**: Lista de ideias geradas pela equipe.
-- **Seleção de Ideias**: Critérios utilizados para escolher as melhores ideias.
-- **Ideias Selecionadas**: Descrição das ideias que serão prototipadas.
+- Portal unificado: centralizar todas as vagas, candidaturas e atendimentos.
+- Sistema de inscrição online: com critérios configuráveis (nota mínima, pré-requisitos, etc.).
+- Painel do aluno candidato: status da candidatura em tempo real, notificações automáticas.
+- Agenda de monitoria: monitores definem horários, alunos agendam, com lembretes e cancelamentos.
+- Registro de atividades: relatórios automatizados.
+- Dashboard da coordenação: visão de vagas, candidaturas.
+- Sistema de feedback: avaliações dos alunos sobre os monitores e relatórios de desempenho.
 
 #### **3.4. Prototipagem**
 
-- **Descrição do Protótipo**: Como a ideia foi transformada em um protótipo (esboço, modelo físico, digital, etc.).
-- **Materiais Utilizados**: Recursos necessários para criar o protótipo.
-- **Testes Realizados**: Como o protótipo foi testado.
+##### Sugestão de telas/fluxos principais:
+-Tela inicial (Aluno): busca de vagas de monitoria e monitores disponíveis.
+-Formulário de candidatura: inscrição para vagas de monitoria.
+-Agenda do monitor: calendário interativo com horários disponíveis.
+-Painel do monitor: registro de sessões, lista de presença.
+-Painel da coordenação: gerenciamento de vagas, acompanhamento de candidaturas e relatórios.
 
 #### **3.5. Teste**
 
-- **Feedback dos Usuários**: O que os usuários acharam do protótipo.
-- **Ajustes Realizados**: Mudanças feitas com base no feedback.
-- **Resultados Finais**: Descrição da solução final.
+##### Critérios de validação com usuários:
+-Alunos: conseguem encontrar vagas e agendar monitorias em menos de 3 cliques.
+-Monitores: conseguem registrar uma sessão em menos de 2 minutos.
+-Coordenação: consegue gerar relatórios de atividades sem uso de planilhas externas.
+-Feedback contínuo: pesquisa de satisfação após sessão de monitoria.
 
 ---
 
 ### **4. Conclusão**
 
-- **Resultados Obtidos**: O que foi alcançado com o projeto.
-- **Próximos Passos**: O que ainda precisa ser feito ou implementado.
-- **Aprendizados**: Lições aprendidas durante o processo.
-
+- O processo de Design Thinking permitiu transformar as dores identificadas em soluções práticas e integradas, alinhadas às necessidades de alunos, monitores e coordenação. A proposta do Portal de Monitorias centraliza informações, reduz burocracias, aumenta a transparência dos processos e fortalece a comunicação entre todos os envolvidos. Dessa forma, a plataforma não apenas otimiza a gestão acadêmica, mas também contribui para o desenvolvimento acadêmico dos alunos, para a valorização do papel dos monitores e para a eficiência da coordenação, gerando uma experiência mais organizada, justa e inovadora para toda a comunidade Ibmec.
 ---
 
 ### **5. Anexos**
