@@ -14,14 +14,19 @@ title: Design Thinking
 
 ---
 
-### **2. Introdução**
+## 2. Introdução
 
-- **Contexto do Projeto**: Breve descrição do problema ou oportunidade.
-- **Objetivo**: O que se espera alcançar com o projeto.
-- **Público-Alvo**: Quem será impactado pela solução.
-- **Escopo**: Limites e abrangência do projeto.
+* **Contexto do Projeto**: Atualmente, o processo de gestão de monitorias acadêmicas no Ibmec é descentralizado e majoritariamente manual. Alunos enfrentam dificuldades para descobrir vagas, entender os requisitos e acompanhar suas candidaturas. Da mesma forma, monitores e coordenadores lidam com uma comunicação desorganizada e processos burocráticos para agendamento e registro de atividades. Essa falta de um sistema centralizado gera ineficiência, falta de transparência e uma experiência fragmentada para todos os envolvidos.
 
----
+* **Objetivo**: O objetivo central do projeto é desenvolver e implantar uma plataforma web, o "Portal de Monitorias Ibmec", para centralizar, automatizar e otimizar todo o ciclo de vida das monitorias. Espera-se com isso aumentar a eficiência dos processos de candidatura e gestão, melhorar a comunicação entre alunos, monitores e coordenadores, e fornecer dados que permitam aprimorar continuamente o programa de monitorias da instituição.
+
+* **Público-Alvo**: A solução impactará diretamente quatro grupos principais dentro da comunidade acadêmica:
+    - **Alunos Consumidores**: Estudantes que buscam auxílio acadêmico e desejam agendar sessões de monitoria.
+    - **Alunos Candidatos a Monitor**: Estudantes que desejam se candidatar para oferecer monitorias.
+    - **Monitores**: Alunos aprovados que utilizam a plataforma para gerenciar seus horários, agendamentos e materiais.
+    - **Coordenadores e Professores**: Responsáveis por criar vagas, selecionar candidatos e supervisionar o programa de monitorias.
+
+* **Escopo**: O projeto abrange o desenvolvimento de uma plataforma web completa, incluindo funcionalidades de cadastro e autenticação de usuários, publicação e busca de vagas de monitoria, sistema de candidatura online, painel para gestão de horários e agendamentos, e um canal de comunicação básico. Estão fora do escopo inicial funcionalidades como integração avançada com sistemas legados do Ibmec que não sejam de autenticação, aplicativos móveis nativos e módulos de pagamento ou remuneração. O foco do MVP (Produto Mínimo Viável) será garantir o fluxo de candidatura e agendamento de forma funcional e intuitiva.
 
 ### **3. Fases do Design Thinking**
 
