@@ -22,7 +22,9 @@ Para o **mapa mental do produto (Gestão de Monitoria)**, optou-se pela ferramen
 
 A partir de cada perfil, foram ramificadas as funcionalidades essenciais que a plataforma deve oferecer para atender às suas respectivas dores e necessidades.
 
-## Mapa mental - Geral.
+---
+
+# Mapa mental - Geral.
 
 ## Versão 1.0
 
