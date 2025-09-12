@@ -26,7 +26,7 @@ title: Mapas Mentais
  
 ### Mapa mental instuição
  
-![Mapa mental Instituição]()
+![Mapa mental Instituição](https://github.com/Projetos-de-Extensao/PBE_25.2_8001_II/blob/main/docs/assets/Mapas_Mentais/mapaMentalInst.png)
  
 ## Conclusão
  
