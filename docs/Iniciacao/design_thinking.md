@@ -7,10 +7,10 @@ title: Design Thinking
 
 ### **1. Capa**
 
-- Título do Projeto
-- Nome da Equipe
-- Data
-- Logo da Empresa/Organização (se aplicável)
+- Gestão de monitoria
+- Grupo II
+- 14/11/2025
+TODO - Logo da Empresa/Organização (se aplicável)
 
 ---
 
