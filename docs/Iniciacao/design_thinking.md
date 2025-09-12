@@ -10,7 +10,7 @@ title: Design Thinking
 - Gestão de monitoria
 - Grupo II
 - 14/11/2025
-TODO - Logo da Empresa/Organização (se aplicável)
+- TODO: Logo da Empresa/Organização (se aplicável)
 
 ---
 
