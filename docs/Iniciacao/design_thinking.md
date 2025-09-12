@@ -63,28 +63,41 @@ title: Design Thinking
 #### **3.3. Ideação**
 
 - Portal unificado: centralizar todas as vagas, candidaturas e atendimentos.
+  
 - Sistema de inscrição online: com critérios configuráveis (nota mínima, pré-requisitos, etc.).
+  
 - Painel do aluno candidato: status da candidatura em tempo real, notificações automáticas.
+  
 - Agenda de monitoria: monitores definem horários, alunos agendam, com lembretes e cancelamentos.
+  
 - Registro de atividades: relatórios automatizados.
+
 - Dashboard da coordenação: visão de vagas, candidaturas.
+  
 - Sistema de feedback: avaliações dos alunos sobre os monitores e relatórios de desempenho.
 
 #### **3.4. Prototipagem**
 
 ##### Sugestão de telas/fluxos principais:
 -Tela inicial (Aluno): busca de vagas de monitoria e monitores disponíveis.
+
 -Formulário de candidatura: inscrição para vagas de monitoria.
+
 -Agenda do monitor: calendário interativo com horários disponíveis.
+
 -Painel do monitor: registro de sessões, lista de presença.
+
 -Painel da coordenação: gerenciamento de vagas, acompanhamento de candidaturas e relatórios.
 
 #### **3.5. Teste**
 
 ##### Critérios de validação com usuários:
 -Alunos: conseguem encontrar vagas e agendar monitorias em menos de 3 cliques.
+
 -Monitores: conseguem registrar uma sessão em menos de 2 minutos.
+
 -Coordenação: consegue gerar relatórios de atividades sem uso de planilhas externas.
+
 -Feedback contínuo: pesquisa de satisfação após sessão de monitoria.
 
 ---
