@@ -29,7 +29,7 @@ A equipe se reuniu para debater ideias gerais sobre o projeto via Discord, come�
  
 <b>Bruno Pessoa</b> - O objetivo da aplicação é criar uma plataforma centralizada e eficiente para o gerenciamento de vagas de monitoria acadêmica, facilitando o processo de candidatura para alunos e permitindo que professores publiquem oportunidades de forma organizada. A plataforma busca modernizar o sistema atual de monitorias, eliminando processos manuais e oferecendo uma interface intuitiva que conecte de forma eficaz estudantes interessados em atuar como monitores com as oportunidades disponíveis. Além disso, a aplicação visa proporcionar maior transparência no processo seletivo e facilitar o acompanhamento das atividades de monitoria por parte da coordenação acadêmica.
  
-<b>WWWW</b> - O principal objetivo da aplicação é a...
+<b>Diogo Mota</b> - O principal objetivo da aplicação é ajudar os monitores e a coordenação se comunicarem melhor e atenderem os alunos de forma mais eficiente.
  
 <b>KKKK</b> - A plataforma deve gerenciar...
 </p>
@@ -43,7 +43,7 @@ A equipe se reuniu para debater ideias gerais sobre o projeto via Discord, come�
  
 <b>Bruno Pessoa</b> - O cliente deve realizar o cadastro utilizando seu e-mail institucional através de um processo de autenticação integrada que garante a segurança e legitimidade dos usuários. O sistema automaticamente identificará o tipo de usuário baseado no domínio do e-mail (@alunos.ibmec.edu.br para estudantes e domínios específicos para professores) e criará o perfil apropriado com as permissões correspondentes. Durante o primeiro acesso, o usuário será direcionado para completar seu perfil com informações complementares como curso, período, disciplinas de interesse (para alunos) ou área de atuação (para professores). Este processo automatizado elimina a necessidade de validação manual e agiliza o ingresso na plataforma.
  
-<b>WWWW</b> - Com o usuário logado, ele deverá...
+<b>Diogo Mota</b> - Com o usuário logado, ele deverá procurar as vagas que tem interesse se for um candidato a monitor, se for aluno poderá ver horario de aulas, bilhetes dos professores entre outras informações e caso seja professor ou da coordenacao poderá ter acesso ao sistema.
 
 <b>João Pedro Ginglass</b> - O cliente (no caso, aluno ou professor) deverá preencher um formulário simples com dados pessoais, acadêmicos e de contato, que será validado pela coordenação antes da ativação no sistema.
  
@@ -63,7 +63,7 @@ A equipe se reuniu para debater ideias gerais sobre o projeto via Discord, come�
  
 <b>João Pedro Ginglass</b> - O "produto" será tratado como disciplinas e vagas de monitoria. Cada disciplina poderá ter um número definido de vagas, cadastradas pela coordenação, incluindo requisitos e horários.
  
-<b>WWWW</b> - O produto....
+<b>Diogo Mota</b> - O produto sera periodicamente atualizado pela coordenação que tera acesso para criar vagas e processo seletivo.
 
 </p>
  
@@ -77,7 +77,7 @@ A equipe se reuniu para debater ideias gerais sobre o projeto via Discord, come�
  
 <b>Joao Pedro Ginglass</b> - O cliente (aluno) poderá visualizar as vagas disponíveis, acompanhar o status da sua candidatura e, se aprovado, acessar informações de suas responsabilidades como monitor.
  
-</p>
+<b>Diogo Mota</b> - o aluno poderá ver notificacões como cancelamento e mudanca de horario feitos periodicamente pelos monitores ou administradores.
 ---
  
 ### 5. "Outras perguntas pertinentes ao contexto", Como seria a forma de adicionar do cliente adicionar os produtos ?
@@ -85,6 +85,8 @@ A equipe se reuniu para debater ideias gerais sobre o projeto via Discord, come�
 <b>Cauan Baptista</b> - De forma parecida da alternativa anterior, porém, ao invés dos administradores preencherem campos como o de valores (campos necessários para a publicação de vagas de monitoria) e publicarem na área de "vagas", eles vão preencher todas as informações parecidas (nome, matéria e etc) e publicar na área de Monitorias disponíveis
 
 <b>Bruno Pessoa</b> - Os clientes (alunos) não adicionam produtos diretamente, mas interagem com o sistema através de candidaturas às vagas disponíveis. O processo de candidatura envolve o preenchimento de um formulário específico onde o aluno deve demonstrar sua qualificação para a vaga, incluindo histórico acadêmico na disciplina, experiências relevantes e motivação. O sistema permitirá o upload de documentos comprobatórios como histórico escolar, certificados e carta de apresentação. Após a submissão, a candidatura entrará em um fluxo de avaliação que pode incluir análise curricular, entrevista ou prova prática, dependendo dos critérios estabelecidos pelo professor responsável.
+
+<b>Diogo Motq</b> - Como foi dito os clientes (ALUNOS) nao irao adicionar produtos apenas se candidatarão pras vagas disponiveis.
 
 </p>
  
@@ -95,6 +97,8 @@ A equipe se reuniu para debater ideias gerais sobre o projeto via Discord, come�
    <b>João Pedro Ginglass</b> - O cliente usuário poderá acessar informações sobre vagas abertas, status de candidatura, histórico de monitorias, carga horária registrada e relatórios de desempenho.
    
    <b>Bruno Pessoa</b> - As informações mais relevantes incluem detalhes das vagas (disciplina, horários, requisitos), status das candidaturas, histórico de participação em monitorias, dados de contato dos responsáveis e cronogramas das atividades programadas. Para candidatos, são essenciais informações sobre processo seletivo, remuneração e atividades esperadas. Para monitores ativos, o sistema deve oferecer ferramentas de registro de atividades e comunicação com supervisores, além de um calendário integrado com prazos importantes do programa.
+
+<b>Diogo Mota</b> - Além das vagas disponiveis, seria interessante termos um portal entre o aluno e o monitor para que possam trocar informações utéis no dia a dia.
    
 </p>
  
