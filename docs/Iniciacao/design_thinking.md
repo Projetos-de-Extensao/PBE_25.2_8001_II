@@ -32,29 +32,29 @@ title: Design Thinking
 
 #### **3.1. Empatia**
 
-##### Alunos (candidatos a monitores)
--Sofrem com falta de centralização das vagas.
--Passam por processos burocráticos e lentos.
--Não têm clareza sobre critérios e prazos.
--Sentem insegurança e ansiedade pela falta de feedback e transparência.
+#### Alunos (candidatos a monitores)
+- Sofrem com falta de centralização das vagas.
+- Passam por processos burocráticos e lentos.
+- Não têm clareza sobre critérios e prazos.
+- Sentem insegurança e ansiedade pela falta de feedback e transparência.
 
-##### Alunos (consumidores de monitoria)
--Dificuldade para descobrir monitores disponíveis.
--Agendamento confuso e descentralizado.
--Não têm avaliações ou referências sobre os monitores.
+#### Alunos (consumidores de monitoria)
+- Dificuldade para descobrir monitores disponíveis.
+- Agendamento confuso e descentralizado.
+- Não têm avaliações ou referências sobre os monitores.
 
-##### Monitores
--Enfrentam caos na gestão da agenda.
--Não têm ferramentas simples para registrar atendimentos.
--Precisam lidar com “no-shows” sem controle.
--Encontram burocracia no reporte de horas e atividades.
+#### Monitores
+- Enfrentam caos na gestão da agenda.
+- Não têm ferramentas simples para registrar atendimentos.
+- Precisam lidar com “no-shows” sem controle.
+- Encontram burocracia no reporte de horas e atividades.
 
-##### Coordenação
--Gestão descentralizada em planilhas e e-mails.
--Falta de visibilidade em tempo real das vagas e processos.
--Geração de relatórios trabalhosa.
--Seleção não padronizada entre disciplinas.
--Comunicação desorganizada com alunos e monitores.
+#### Coordenação
+- Gestão descentralizada em planilhas e e-mails.
+- Falta de visibilidade em tempo real das vagas e processos.
+- Geração de relatórios trabalhosa.
+- Seleção não padronizada entre disciplinas.
+- Comunicação desorganizada com alunos e monitores.
 
 #### **3.2. Definição**
 
@@ -79,26 +79,26 @@ title: Design Thinking
 #### **3.4. Prototipagem**
 
 ##### Sugestão de telas/fluxos principais:
--Tela inicial (Aluno): busca de vagas de monitoria e monitores disponíveis.
+- Tela inicial (Aluno): busca de vagas de monitoria e monitores disponíveis.
 
--Formulário de candidatura: inscrição para vagas de monitoria.
+- Formulário de candidatura: inscrição para vagas de monitoria.
 
--Agenda do monitor: calendário interativo com horários disponíveis.
+- Agenda do monitor: calendário interativo com horários disponíveis.
 
--Painel do monitor: registro de sessões, lista de presença.
+- Painel do monitor: registro de sessões, lista de presença.
 
--Painel da coordenação: gerenciamento de vagas, acompanhamento de candidaturas e relatórios.
+- Painel da coordenação: gerenciamento de vagas, acompanhamento de candidaturas e relatórios.
 
 #### **3.5. Teste**
 
 ##### Critérios de validação com usuários:
--Alunos: conseguem encontrar vagas e agendar monitorias em menos de 3 cliques.
+- Alunos: conseguem encontrar vagas e agendar monitorias em menos de 3 cliques.
 
--Monitores: conseguem registrar uma sessão em menos de 2 minutos.
+- Monitores: conseguem registrar uma sessão em menos de 2 minutos.
 
--Coordenação: consegue gerar relatórios de atividades sem uso de planilhas externas.
+- Coordenação: consegue gerar relatórios de atividades sem uso de planilhas externas.
 
--Feedback contínuo: pesquisa de satisfação após sessão de monitoria.
+- Feedback contínuo: pesquisa de satisfação após sessão de monitoria.
 
 ---
 
