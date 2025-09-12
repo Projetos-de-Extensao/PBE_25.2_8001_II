@@ -14,7 +14,7 @@ title: Design Thinking
 
 ---
 
-## 2. Introdução
+### 2. Introdução
 
 * **Contexto do Projeto**: Atualmente, o processo de gestão de monitorias acadêmicas no Ibmec é descentralizado e majoritariamente manual. Alunos enfrentam dificuldades para descobrir vagas, entender os requisitos e acompanhar suas candidaturas. Da mesma forma, monitores e coordenadores lidam com uma comunicação desorganizada e processos burocráticos para agendamento e registro de atividades. Essa falta de um sistema centralizado gera ineficiência, falta de transparência e uma experiência fragmentada para todos os envolvidos.
 
