@@ -31,7 +31,7 @@ A equipe se reuniu para debater ideias gerais sobre o projeto via Discord, come�
  
 <b>Diogo Mota</b> - O principal objetivo da aplicação é ajudar os monitores e a coordenação se comunicarem melhor e atenderem os alunos de forma mais eficiente.
  
-<b>KKKK</b> - A plataforma deve gerenciar...
+<b>Guilherme Viana</b> - A plataforma deve gerenciar as vagas de monitoria, facilitando a candidatura dos alunos, o acompanhamento das atividades pelos monitores e o controle integral do processo pela coordenação.
 </p>
  
 ---
@@ -47,7 +47,8 @@ A equipe se reuniu para debater ideias gerais sobre o projeto via Discord, come�
 
 <b>João Pedro Ginglass</b> - O cliente (no caso, aluno ou professor) deverá preencher um formulário simples com dados pessoais, acadêmicos e de contato, que será validado pela coordenação antes da ativação no sistema.
  
-<b>KKKK</b> - O cliente...
+<b>Guilherme Viana</b> - O novo cliente (aluno ou professor) consistirá no preenchimento de um formulário simples com informações pessoais, acadêmicas e de contato, que passará por validação da coordenação antes da ativação no sistema.
+
  
 ---
  
@@ -65,6 +66,8 @@ A equipe se reuniu para debater ideias gerais sobre o projeto via Discord, come�
  
 <b>Diogo Mota</b> - O produto sera periodicamente atualizado pela coordenação que tera acesso para criar vagas e processo seletivo.
 
+<b>Guilherme Viana</b> - O produto será representado por disciplinas e suas respectivas vagas de monitoria. Cada disciplina poderá ter um número específico de vagas, definidas pela coordenação, com requisitos e horários previamente estabelecidos. 
+
 </p>
  
 ---
@@ -78,6 +81,9 @@ A equipe se reuniu para debater ideias gerais sobre o projeto via Discord, come�
 <b>Joao Pedro Ginglass</b> - O cliente (aluno) poderá visualizar as vagas disponíveis, acompanhar o status da sua candidatura e, se aprovado, acessar informações de suas responsabilidades como monitor.
  
 <b>Diogo Mota</b> - o aluno poderá ver notificacões como cancelamento e mudanca de horario feitos periodicamente pelos monitores ou administradores.
+
+<b>Guilherme Viana</b> - O cliente (aluno) terá acesso às vagas de monitoria disponíveis, poderá acompanhar o andamento da sua candidatura e, em caso de aprovação, poderá consultar as informações relacionadas às suas atribuições como monitor. 
+
 ---
  
 ### 5. "Outras perguntas pertinentes ao contexto", Como seria a forma de adicionar do cliente adicionar os produtos ?
