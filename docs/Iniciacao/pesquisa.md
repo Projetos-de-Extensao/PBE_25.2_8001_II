@@ -42,28 +42,26 @@ Plataforma web para gestão de monitorias acadêmicas, oferecendo mais organiza�
 - Isolamento: Falta de um canal de comunicação com outros monitores para trocar experiências, compartilhar boas práticas e resolver problemas comuns.
 - Feedback para Melhoria: Ausência de um mecanismo estruturado para receber feedback construtivo dos alunos atendidos, dificultando a melhoria de sua própria didática.
 
-
 -------
 
 ## Dores da Coordenação
-- Falta de padronização nos processos de seleção entre diferentes cursos.  
-- Necessidade de emitir relatórios manuais sobre monitorias ativas.  
-- Retrabalho administrativo por depender de planilhas e e-mails dispersos.
-- Poucas habilidades automatizadas no projeto. 
+- **Gestão Descentralizada:** Dificuldade em gerenciar vagas, inscrições e relatórios de monitoria, que estão dispersos em múltiplos canais (e-mails, planilhas, documentos físicos).
+- **Processos Manuais e Burocráticos:** Grande parte do trabalho de divulgação de vagas, recebimento de candidaturas, seleção e comunicação com os envolvidos é feita manualmente, consumindo tempo e sendo suscetível a erros.
+- **Falta de Visibilidade e Controle:** Dificuldade para acompanhar em tempo real o status das vagas (quais foram preenchidas, quais estão abertas), o número de candidatos por disciplina e o desempenho geral do programa de monitoria.
+- **Comunicação Ineficiente:** Inexistência de um canal de comunicação centralizado para se comunicar com professores, monitores e alunos, resultando em informações desencontradas e demora nas respostas.
+- **Geração de Relatórios Trabalhosa:** Processo manual e demorado para compilar dados e gerar relatórios sobre as atividades de monitoria, horas cumpridas e número de alunos atendidos, informações frequentemente exigidas para fins administrativos e de avaliação do programa.
+- **Falta de Padronização:** Ausência de um processo unificado para a seleção de monitores, fazendo com que cada coordenação ou professor adote um método diferente, o que gera inconsistência e falta de transparência.
 
 -------
 
 ## ⚙️ Funcionalidades Propostas
-- **Centralização**: Portal único para inscrições, acompanhamento e resultados.  
-- **Transparência**: Divulgação clara das vagas, requisitos e prazos.  
-- **Automação**: Processos de inscrição, avaliação e notificações simplificados.  
-- **Gestão**: Painel para monitores acompanharem seu desempenho.  
-- **Relatórios**: Dados consolidados para coordenação sobre vagas, inscrições e desempenho.  
-- **Acesso Fácil**: Alunos podem consultar horários e contatos dos monitores aprovados.  
+- **Painel de Gestão da Coordenação:** Uma área administrativa centralizada onde a coordenação pode cadastrar, editar e remover vagas de monitoria, bem como acompanhar o status de todas as candidaturas em tempo real.
+- **Facilitação do Processo Seletivo:** O sistema permitirá que a coordenação defina critérios de seleção (como nota mínima e pré-requisitos) e que o processo de candidatura seja feito de forma padronizada e online, com notificações automáticas sobre o status da candidatura para os alunos.
+- **Canal de Comunicação Integrado:** Uma ferramenta de comunicação dentro da plataforma que facilite o contato entre a coordenação, professores, monitores e alunos, centralizando as dúvidas e comunicados importantes.
+- **Agendamento e Registro de Atividades:** Monitores terão um painel para gerenciar seus horários de atendimento e registrar as atividades realizadas (lista de presença, tópicos abordados, etc.), simplificando o acompanhamento pela coordenação.
+- **Portal de Monitorias para Alunos:** Uma interface intuitiva para que os alunos possam buscar e se inscrever nas vagas de monitoria disponíveis, consultar os horários de atendimento dos monitores e acessar materiais de apoio.
 
 --------
-
-
 
 ### Pesquisa realizada para compreensão das principais características do Aplicativo de **Gestão de Monitoria**. 
 
