@@ -266,6 +266,7 @@ Para facilitar o entendimento do projeto e o fluxo, vamos separar em jornadas
         - Lista de monitores ativos.
     - Botão para "Exportar como Planilha (CSV/Excel)".
 
+# Link de acesso: https://monitoria-conecta.lovable.app/auth/login
 ---
 ---
 ---
