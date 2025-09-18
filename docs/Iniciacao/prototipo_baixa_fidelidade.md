@@ -22,11 +22,11 @@ Iniciamos o projeto através dos levantamentos iniciais da equipe, após discuss
 
 [![Prototipo 1](../assets/Prototipo/image.png)](../assets/Prototipo/image.png)
 
-### Tela Cadastro 1
+### Tela Cadastro aluno
 
 [![Prototipo 2](../assets/Prototipo/image.png)](../assets/Prototipo/image.png)
 
-### Tela Cadastro 2
+### Tela Cadastro professor
 
 [![Prototipo 3](../assets/Prototipo/image.png)](../assets/Prototipo/image.png)
 
@@ -34,41 +34,24 @@ Iniciamos o projeto através dos levantamentos iniciais da equipe, após discuss
 
 [![Prototipo 4](../assets/Prototipo/image.png)](../assets/Prototipo/image.png)
 
-### Tela do Feed
+### Tela principal, divida com 2 botões, buscar vagas, ou buscar monitorias
 
 [![Prototipo 5](../assets/Prototipo/image.png)](../assets/Prototipo/image.png)
 
-### Tela Feed com configurações
+### Tela de buscar vagas, nela, devemos ter cards com informações sobre as vagas abertas
 
-[![Prototipo 6](../assets/Prototipo/image.png)](../assets/Prototipo/image.png)
-
-### Tela Perfil
+### Tela de buscar monitorias, nela, devemos ter cards com as monitorias disponíveis
 
 [![Prototipo 7](../assets/Prototipo/image.png)](../assets/Prototipo/image.png)
 
-### Tela Cadastrar torneio 1
+### Tela de inscrição para a monitoria (pedindo informações como nome, matrícula, email, carga horária que pode (podendo selecionar mais de uma das opções: manha, tarde ou noite)
 
 [![Prototipo 8](../assets/Prototipo/image.png)](../assets/Prototipo/image.png)
 
-### Tela Cadastrar torneio 2
+### Tela Perfil
 
 [![Prototipo 9](../assets/Prototipo/image.png)](../assets/Prototipo/image.png)
 
-### Tela Cadastrar torneio 3
-
-[![Prototipo 10](../assets/Prototipo/image.png)](../assets/Prototipo/image.png)
-
-### Tela Cadastrar torneio 4
-
-[![Prototipo 11](../assets/Prototipo/image.png)](../assets/Prototipo/image.png)
-
-### Tela com meus torneios
-
-[![Prototipo 12](../assets/Prototipo/image.png)](../assets/Prototipo/image.png)
-
-### Tela de inscrição em torneio
-
-[![Prototipo 13](../assets/Prototipo/image.png)](../assets/Prototipo/image.png)
 
 <p align = "justify">
 Na primeira versão do protótipo utilizamos a ferramenta <a href="https://material.io/resources/color/#!/?view.left=0&view.right=0">Material Design Color Tool</a>  para auxiliar na criação da paleta de cores do aplicativo, definimos as cores base do aplicativo mas as cores definidas para as telas 12 e 13 ainda não foram decididas.
