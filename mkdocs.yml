@@ -5,6 +5,7 @@ site_name: PBE_25.2_8003
 copyright: Copyright ©️ 2025, Jonh Carvalho
 
 nav: 
+nav: 
   - Home: index.md
   - Disciplina:
       - Aulas: Disciplina/aulas.md
@@ -35,8 +36,14 @@ nav:
       - CodeSpace: Construcao/codespace.md
   - Transição:
       - Index: Transicao/index.md
-
+  - Apresentação:
+      - Slides: Apresentacao/slides.md
+      - Demonstração: Apresentacao/demonstracao.md
+      - Vídeo: Apresentacao/video.md
+  - Apresentacao:
+      - Site: https://monitoria-conecta.lovable.app/auth/login
   - Bibliografia: Disciplina/bibliografia.md
+
 
 extra_css:
   - css/extra.css
