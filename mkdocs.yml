@@ -1,11 +1,15 @@
----
-repo_url: https://github.com/jonh-carvalho/PBE_25.2_8003
+site_url: https://projetos-de-extensao.github.io/PBE_25.2_8001_II/
+repo_url: https://github.com/jonh-carvalho/PBE_25.2_8001_II
 site_author: Jonh Carvalho
-site_name: PBE_25.2_8003
+site_name: PBE_25.2_8001_II
 copyright: Copyright ©️ 2025, Jonh Carvalho
 
+<<<<<<< HEAD
 nav: 
 nav: 
+=======
+nav:
+>>>>>>> dfc49f6653fcbcd077fad5179ad90246a5564967
   - Home: index.md
   - Disciplina:
       - Aulas: Disciplina/aulas.md
@@ -14,17 +18,17 @@ nav:
       - Mkdocs: Disciplina/mkdocs.md
       - CodeSpace: Disciplina/codespace.md
       - Avaliações: Disciplina/avaliacoes.md
-  - Iniciação: 
+  - Iniciação:
       - Index: Iniciacao/index.md
       - Pesquisa: Iniciacao/pesquisa.md
       - 5w2h: Iniciacao/5w2h.md
       - Design Thinking: Iniciacao/design_thinking.md
-      - Brainstorming: Iniciacao/brainstorm.md
+      - Brainstorming: Iniciacao/Brainstorm.md      
       - Mapa Mental: Iniciacao/mapa_mental.md
       - Prototipagem Baixa Fidelidade: Iniciacao/prototipo_baixa_fidelidade.md
   - Elaboração:
       - Index: Elaboracao/index.md
-      - Requisitos: Elaboracao/das.md
+      - Requisitos: Elaboracao/dsc.md                 
       - Casos de Uso: Elaboracao/casos_de_uso.md
       - Diagrama de Classes: Elaboracao/diagrama_de_classes.md
       - Diagrama de Sequência: Elaboracao/diagrama_de_sequencia.md
@@ -32,15 +36,18 @@ nav:
   - Construção:
       - Index: Construcao/index.md
       - Git Issues: Construcao/git_issues.md
-      - GitHub Projects: Construcao/github_projects.md
-      - CodeSpace: Construcao/codespace.md
+      - GitHub Projects: Construcao/github_project.md  
+      - CodeSpace: Construcao/codespace.md             
   - Transição:
       - Index: Transicao/index.md
   - Apresentação:
+<<<<<<< HEAD
       - Slides: Apresentacao/slides.md
       - Demonstração: Apresentacao/demonstracao.md
       - Vídeo: Apresentacao/video.md
   - Apresentacao:
+=======
+>>>>>>> dfc49f6653fcbcd077fad5179ad90246a5564967
       - Site: https://monitoria-conecta.lovable.app/auth/login
   - Bibliografia: Disciplina/bibliografia.md
 
@@ -49,53 +56,32 @@ extra_css:
   - css/extra.css
 
 markdown_extensions:
-  # Tooltips
   - abbr
-  # Admonitions
   - admonition
-  # Annotations, Buttons, Grids, Icons & Emojis, Images, Tooltips
   - attr_list
-  # Footnotes
   - footnotes
-  # Annotations, Grids, Images
   - md_in_html
-  # Images
   - pymdownx.blocks.caption
-  # Formatting
   - pymdownx.caret
-  # Formatting
   - pymdownx.critic
-  # Admonitions
   - pymdownx.details
-  # Icons & Emojis
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji ''
       emoji_generator: !!python/name:material.extensions.emoji.to_svg ''
-  # Code Blocks
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true
-  # Code Blocks
   - pymdownx.inlinehilite
-  # Formatting
   - pymdownx.keys
-  # Formatting
   - pymdownx.mark
-  # Code Blocks, Tooltips
   - pymdownx.snippets
-  # Admonitions, Annotations, Code Blocks, Content Tabs
   - pymdownx.superfences
-  # Content Tabs
   - pymdownx.tabbed:
       alternate_style: true
-  # Lists
   - pymdownx.tasklist:
       custom_checkbox: true
-  # Formatting
   - pymdownx.tilde
-  # Data Tables
-
   - toc:
       permalink: true
 
@@ -106,9 +92,10 @@ plugins:
 
 theme:
   name: material
-  logo: assets/ibmec_logo.png
+  logo: assets/ibmec_logo.png    
+  language: pt-BR
+  favicon: images/favicon.png     
   palette:
-    
     - media: "(prefers-color-scheme)"
       toggle:
         icon: material/toggle-switch
@@ -128,10 +115,8 @@ theme:
         icon: material/toggle-switch-off
         name: Switch to system preference
       color_mode: dark
-      language: pt-BR
-      favicon: images/favicon.png
-      user_color_mode_toggle: true
-  
+  user_color_mode_toggle: true
+
   features:
     - content.code.copy
     - navigation.indexes
