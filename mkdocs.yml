@@ -16,7 +16,7 @@ nav:
       - Prototipagem Baixa Fidelidade: Iniciacao/prototipo_baixa_fidelidade.md
   - Elaboração:
       - Index: Elaboracao/index.md
-      - Requisitos: Elaboracao/dsc.md                 
+      - Requisitos: Elaboracao/das.md                 
       - Casos de Uso: Elaboracao/casos_de_uso.md
       - Diagrama de Classes: Elaboracao/diagrama_de_classes.md
       - Diagrama de Sequência: Elaboracao/diagrama_de_sequencia.md
@@ -24,7 +24,7 @@ nav:
   - Construção:
       - Index: Construcao/index.md
       - Git Issues: Construcao/git_issues.md
-      - GitHub Projects: Construcao/github_project.md  
+      - GitHub Projects: Construcao/github_projects.md  
       - CodeSpace: Construcao/codespace.md             
   - Transição:
       - Index: Transicao/index.md
