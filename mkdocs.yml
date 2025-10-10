@@ -1,11 +1,19 @@
 ---
-repo_url: https://github.com/jonh-carvalho/PBE_25.2_8003
+repo_url: https://github.com/jonh-carvalho/PBE_25.2_8001_II
 site_author: Jonh Carvalho
-site_name: PBE_25.2_8003
+site_name: PBE_25.2_8001_II
 copyright: Copyright ©️ 2025, Jonh Carvalho
 
 nav: 
+nav: 
   - Home: index.md
+  - Disciplina:
+      - Aulas: Disciplina/aulas.md
+      - Ambiente: Disciplina/ambiente.md
+      - Github: Disciplina/github.md
+      - Mkdocs: Disciplina/mkdocs.md
+      - CodeSpace: Disciplina/codespace.md
+      - Avaliações: Disciplina/avaliacoes.md
   - Iniciação: 
       - Index: Iniciacao/index.md
       - Pesquisa: Iniciacao/pesquisa.md
@@ -28,6 +36,10 @@ nav:
       - CodeSpace: Construcao/codespace.md
   - Transição:
       - Index: Transicao/index.md
+  - Apresentacao:
+      - Site: https://monitoria-conecta.lovable.app/auth/login
+  - Bibliografia: Disciplina/bibliografia.md
+
 
 extra_css:
   - css/extra.css
@@ -84,6 +96,8 @@ markdown_extensions:
       permalink: true
 
 plugins:
+  - minify:
+      minify_html: true
   - search
 
 theme:
