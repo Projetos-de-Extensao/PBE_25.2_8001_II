@@ -4,12 +4,7 @@ site_author: Jonh Carvalho
 site_name: PBE_25.2_8001_II
 copyright: Copyright ©️ 2025, Jonh Carvalho
 
-<<<<<<< HEAD
 nav: 
-nav: 
-=======
-nav:
->>>>>>> dfc49f6653fcbcd077fad5179ad90246a5564967
   - Home: index.md
   - Disciplina:
       - Aulas: Disciplina/aulas.md
@@ -40,14 +35,7 @@ nav:
       - CodeSpace: Construcao/codespace.md             
   - Transição:
       - Index: Transicao/index.md
-  - Apresentação:
-<<<<<<< HEAD
-      - Slides: Apresentacao/slides.md
-      - Demonstração: Apresentacao/demonstracao.md
-      - Vídeo: Apresentacao/video.md
   - Apresentacao:
-=======
->>>>>>> dfc49f6653fcbcd077fad5179ad90246a5564967
       - Site: https://monitoria-conecta.lovable.app/auth/login
   - Bibliografia: Disciplina/bibliografia.md
 
