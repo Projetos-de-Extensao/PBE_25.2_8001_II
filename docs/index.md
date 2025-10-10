@@ -4,26 +4,47 @@ hide:
   - toc
 ---  
 
-# PBE_25.2_8003
+# PBE_25.2_8001_II
+
+
 
 <div class="grid cards" markdown>
 
--   :material-github:{ .lg .right } __PBE_25.21_8003_I__
+-   <font color="#FFA07A"> :material-github:{ .lg .middle } __PBE_25.2_8001_I__</font>
+ 
+    ---
+
+    Bernardo, Davi, Viniius, Felipe, Luiz Fabiano
+
+    [:octicons-arrow-right-24: Repositório](https://github.com/Projetos-de-Extensao/PBE_25.2_8001_I)
+
+
+-   <font color="#FFA07A"> :material-github:{ .lg .middle } __PBE_25.2_8001_II__</font>     
 
     ---
 
-    Lorem Ipsum     Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+    Bruno, Cauan, João Pedro, Guilherme Viana, Diogo
 
-    [:octicons-arrow-right-24: Repositório](https://github.com/Projetos-de-Extensao/PBE_25.2_8003_I)
+    [:octicons-arrow-right-24: Repositório](https://github.com/Projetos-de-Extensao/PBE_25.2_8001_II)
 
--   :material-github:{ .lg .middle } __PBE_25.2_8003_II__
+
+
+-   <font color="#FFA07A">:material-github:{ .lg .middle } __PBE_25.2_8002_III__</font>
 
     ---
 
-    Lorem Ipsum Lorem Ipsum Lorem Ipsum
+    Vitor, Guilherme Reis, Mateus Reis, Pietro
 
-    [:octicons-arrow-right-24: Repositório](https://github.com/Projetos-de-Extensao/PBE_25.2_8003_II)
+    [:octicons-arrow-right-24: Repositório](https://github.com/Projetos-de-Extensao/PBE_25.2_8001_III)
+
+-   <font color="#FFA07A">:material-github:{ .lg .middle } __PBE_25.2_8002_IV__</font>
+
+    ---
+
+    Anderson, Bernardo, Gabriel
+
+    [:octicons-arrow-right-24: Repositório](https://github.com/Projetos-de-Extensao/PBE_25.2_8001_IV)
+
 
 
 </div>
-
