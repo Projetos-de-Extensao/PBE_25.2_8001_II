@@ -1,1 +1,21 @@
-site/
+# Ambiente virtual
+venv/
+.venv/
+
+# Arquivos de dependências
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Configurações do VS Code
+.vscode/
+
+# Arquivos de log
+*.log
+
+# Diretórios de build
+build/
+dist/
+*.egg-info/
+dev/front-end/
