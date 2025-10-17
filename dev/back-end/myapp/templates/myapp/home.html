@@ -1,0 +1,61 @@
+<!-- myapp/templates/myapp/home.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sistema de Monitorias</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .header { background: #2c3e50; color: white; padding: 20px; border-radius: 5px; }
+        .monitoria { border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .btn { background: #3498db; color: white; padding: 10px 15px; text-decoration: none; border-radius: 3px; }
+        .nav { margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎓 Sistema de Monitorias</h1>
+        <p>Encontre oportunidades de monitoria na sua universidade</p>
+    </div>
+
+    <div class="nav">
+        {% if user.is_authenticated %}
+            <p>Olá, <strong>{{ user.first_name }}</strong>! 
+               <a href="{% url 'logout' %}" class="btn">Sair</a>
+               {% if user.tipo_usuario == 'aluno' %}
+                   <a href="{% url 'minhas_candidaturas' %}" class="btn">Minhas Candidaturas</a>
+               {% elif user.tipo_usuario == 'coordenador' %}
+                   <a href="{% url 'dashboard_coordenador' %}" class="btn">Dashboard</a>
+               {% endif %}
+            </p>
+        {% else %}
+            <a href="{% url 'login' %}" class="btn">Entrar</a>
+            <a href="{% url 'cadastro' %}" class="btn">Cadastrar</a>
+        {% endif %}
+    </div>
+
+    <h2>Monitorias Disponíveis ({{ total_monitorias }})</h2>
+    
+    {% if monitorias %}
+        {% for monitoria in monitorias %}
+        <div class="monitoria">
+            <h3>{{ monitoria.titulo }}</h3>
+            <p><strong>Disciplina:</strong> {{ monitoria.disciplina.nome }} ({{ monitoria.disciplina.codigo }})</p>
+            <p><strong>Coordenador:</strong> {{ monitoria.coordenador.first_name }} {{ monitoria.coordenador.last_name }}</p>
+            <p><strong>Vagas:</strong> {{ monitoria.vagas }}</p>
+            <p><strong>Data limite:</strong> {{ monitoria.data_limite }}</p>
+            <p>{{ monitoria.descricao|truncatewords:30 }}</p>
+            
+            {% if user.is_authenticated %}
+                {% if user.tipo_usuario == 'aluno' %}
+                    <a href="{% url 'detalhes_monitoria' monitoria.id %}" class="btn">Ver Detalhes e Candidatar</a>
+                {% endif %}
+            {% else %}
+                <a href="{% url 'login' %}?next={% url 'detalhes_monitoria' monitoria.id %}" class="btn">Fazer Login para Candidatar</a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>Não há monitorias disponíveis no momento.</p>
+    {% endif %}
+</body>
+</html>

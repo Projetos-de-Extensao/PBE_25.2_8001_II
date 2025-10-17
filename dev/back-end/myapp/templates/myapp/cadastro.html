@@ -1,0 +1,50 @@
+<!-- myapp/templates/myapp/cadastro.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cadastro - Sistema de Monitorias</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; max-width: 400px; }
+        .form-group { margin: 15px 0; }
+        label { display: block; margin-bottom: 5px; }
+        input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 3px; }
+        button { background: #3498db; color: white; padding: 10px 15px; border: none; border-radius: 3px; cursor: pointer; }
+        .error { color: red; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Cadastro</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Nome:</label>
+            {{ form.first_name }}
+        </div>
+        <div class="form-group">
+            <label>Sobrenome:</label>
+            {{ form.last_name }}
+        </div>
+        <div class="form-group">
+            <label>Matrícula:</label>
+            {{ form.matricula }}
+        </div>
+        <div class="form-group">
+            <label>Email Institucional:</label>
+            {{ form.email_institucional }}
+        </div>
+        <div class="form-group">
+            <label>Senha:</label>
+            {{ form.password }}
+        </div>
+        <div class="form-group">
+            <label>Confirmar Senha:</label>
+            {{ form.confirm_password }}
+        </div>
+        <button type="submit">Cadastrar</button>
+    </form>
+    
+    <p><a href="{% url 'login' %}">Já tem conta? Faça login</a></p>
+    <p><a href="{% url 'home' %}">Voltar para a página inicial</a></p>
+</body>
+</html>

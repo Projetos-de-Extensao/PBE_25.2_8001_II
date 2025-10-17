@@ -9,14 +9,14 @@ class AlunoSerializer(serializers.ModelSerializer):
 class ProfessorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Professor
-        fields = ['id', 'nome', 'email', 'departamento']
+        fields = ['id', 'nome', 'email', 'cpf']
 
 class MonitorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Monitor
-        fields = ['id', 'nome', 'email', 'disciplina']
+        fields = ['id', 'nome', 'email', 'disciplina', 'matricula']
 
 class CoordenadorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Coordenador
-        fields = ['id', 'nome', 'email', 'curso']
+        fields = ['id', 'nome', 'email', 'curso', 'cpf']
