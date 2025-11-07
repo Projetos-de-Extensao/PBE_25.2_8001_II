@@ -1,70 +1,85 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { api } from '@/lib/api';
 
-export type UserRole = 'student' | 'monitor' | 'coordinator';
+export type UserRole = 'aluno' | 'monitor' | 'professor' | 'coordenador';
 
 export interface User {
-  id: string;
-  nome: string;
-  email: string;
-  matricula?: string;
-  role: UserRole;
+  id: number;
+  email_institucional: string;
+  matricula: string;
+  first_name: string;
+  last_name: string;
+  tipo_usuario: UserRole;
+  cpf?: string;
+  ativo: boolean;
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (email: string, password: string) => Promise<boolean>;
+  login: (email: string, password: string) => Promise<void>;
+  register: (userData: any) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
+  isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Mock users for demonstration
-const mockUsers: User[] = [
-  {
-    id: '1',
-    nome: 'João Silva',
-    email: 'joao.silva@ibmec.edu.br',
-    matricula: '2023001',
-    role: 'student'
-  },
-  {
-    id: '2',
-    nome: 'Maria Santos',
-    email: 'maria.santos@ibmec.edu.br',
-    matricula: '2022001',
-    role: 'monitor'
-  },
-  {
-    id: '3',
-    nome: 'Prof. Carlos Lima',
-    email: 'carlos.lima@ibmec.edu.br',
-    role: 'coordinator'
-  }
-];
-
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const login = async (email: string, password: string): Promise<boolean> => {
-    // Mock authentication - in real app, this would call an API
-    const foundUser = mockUsers.find(u => u.email === email);
-    if (foundUser) {
-      setUser(foundUser);
-      return true;
+  // Verifica se há usuário logado ao carregar a aplicação
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        if (api.auth.isAuthenticated()) {
+          const currentUser = await api.auth.getCurrentUser();
+          setUser(currentUser);
+        }
+      } catch (error) {
+        console.error('Erro ao verificar autenticação:', error);
+        api.auth.logout();
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  const login = async (email: string, password: string): Promise<void> => {
+    try {
+      const loggedUser = await api.auth.login(email, password);
+      setUser(loggedUser);
+    } catch (error) {
+      console.error('Erro ao fazer login:', error);
+      throw error;
     }
-    return false;
+  };
+
+  const register = async (userData: any): Promise<void> => {
+    try {
+      const newUser = await api.auth.register(userData);
+      setUser(newUser);
+    } catch (error) {
+      console.error('Erro ao registrar:', error);
+      throw error;
+    }
   };
 
   const logout = () => {
+    api.auth.logout();
     setUser(null);
   };
 
   const value = {
     user,
     login,
+    register,
     logout,
-    isAuthenticated: !!user
+    isAuthenticated: !!user,
+    isLoading,
   };
 
   return (

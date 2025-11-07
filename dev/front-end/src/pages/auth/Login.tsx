@@ -6,38 +6,14 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
-import { Mail, Lock } from 'lucide-react';
+import { Mail, Lock, AlertCircle } from 'lucide-react';
 import ibmecLogo from '@/assets/ibmec-logo.png';
-
-// Mock users for redirect logic - should be imported from AuthContext in real app
-const mockUsers = [
-  {
-    id: '1',
-    nome: 'João Silva', 
-    email: 'joao.silva@ibmec.edu.br',
-    matricula: '2023001',
-    role: 'student'
-  },
-  {
-    id: '2',
-    nome: 'Maria Santos',
-    email: 'maria.santos@ibmec.edu.br', 
-    matricula: '2022001',
-    role: 'monitor'
-  },
-  {
-    id: '3',
-    nome: 'Prof. Carlos Lima',
-    email: 'carlos.lima@ibmec.edu.br',
-    role: 'coordinator'
-  }
-];
 
 export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -46,33 +22,23 @@ export const Login = () => {
     setIsLoading(true);
 
     try {
-      const success = await login(email, password);
-      if (success) {
-        toast({
-          title: "Login realizado com sucesso",
-          description: "Redirecionando para o portal...",
-        });
-        
-        // Redireciona para área específica baseada no papel do usuário
-        const loggedUser = mockUsers.find(u => u.email === email);
-        if (loggedUser?.role === 'monitor') {
-          navigate('/monitor/dashboard');
-        } else if (loggedUser?.role === 'coordinator') {
-          navigate('/coordinator/dashboard');
-        } else {
-          navigate('/home');
-        }
-      } else {
-        toast({
-          title: "Erro no login",
-          description: "E-mail ou senha incorretos. Tente novamente.",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
+      await login(email, password);
+      
       toast({
-        title: "Erro no sistema",
-        description: "Tente novamente em alguns instantes.",
+        title: "Login realizado com sucesso!",
+        description: "Redirecionando para o portal...",
+      });
+      
+      // Pequeno delay para mostrar o toast
+      setTimeout(() => {
+        navigate('/home');
+      }, 500);
+      
+    } catch (error: any) {
+      console.error('Erro no login:', error);
+      toast({
+        title: "Erro no login",
+        description: error.message || "E-mail ou senha incorretos.",
         variant: "destructive",
       });
     } finally {

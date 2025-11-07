@@ -214,8 +214,9 @@ export const Home = () => {
 
   return (
     <div className="min-h-screen bg-background">
+
       <Header 
-        userName={user.nome} 
+        userName={user.nome ? user.nome : (user.first_name ? user.first_name + ' ' + (user.last_name || '') : user.email_institucional)}
         userRole={user.role}
         onLogout={handleLogout}
         onProfile={handleProfile}
@@ -223,8 +224,11 @@ export const Home = () => {
 
       <div className="academic-layout py-6">
         {/* Welcome Section */}
+
         <div className="mb-8">
-          <h1 className="wireframe-header">Olá, {user.nome.split(' ')[0]}!</h1>
+          <h1 className="wireframe-header">
+            Olá, {user.nome ? user.nome.split(' ')[0] : (user.first_name ? user.first_name : user.email_institucional)}!
+          </h1>
           <p className="text-muted-foreground text-lg">{getWelcomeMessage()}</p>
         </div>
 
