@@ -8,7 +8,6 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { 
-  Upload, 
   File, 
   Download, 
   Trash2, 
@@ -19,53 +18,13 @@ import {
   Folder
 } from 'lucide-react';
 
-// Mock data - in real app would fetch from API
-const mockMateriais = [
-  {
-    id: '1',
-    nome: 'Lista de Exercícios - Derivadas.pdf',
-    tipo: 'PDF',
-    tamanho: '2.3 MB',
-    dataUpload: '2024-11-18',
-    categoria: 'Exercícios',
-    downloads: 15
-  },
-  {
-    id: '2',
-    nome: 'Resumo - Limites.docx',
-    tipo: 'DOCX',
-    tamanho: '856 KB',
-    dataUpload: '2024-11-15',
-    categoria: 'Resumos',
-    downloads: 23
-  },
-  {
-    id: '3',
-    nome: 'Video Aula - Integrais.mp4',
-    tipo: 'VIDEO',
-    tamanho: '45.2 MB',
-    dataUpload: '2024-11-12',
-    categoria: 'Vídeos',
-    downloads: 8
-  },
-  {
-    id: '4',
-    nome: 'Formulário - Cálculo I.png',
-    tipo: 'IMAGE',
-    tamanho: '1.1 MB',
-    dataUpload: '2024-11-10',
-    categoria: 'Formulários',
-    downloads: 31
-  }
-];
-
 const categorias = ['Todos', 'Exercícios', 'Resumos', 'Vídeos', 'Formulários'];
 
 export const Materiais = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [materiais, setMateriais] = useState(mockMateriais);
+  const [materiais, setMateriais] = useState([]);
   const [filtroCategoria, setFiltroCategoria] = useState('Todos');
   const [busca, setBusca] = useState('');
 
@@ -76,13 +35,6 @@ export const Materiais = () => {
 
   const handleProfile = () => {
     navigate('/auth/profile');
-  };
-
-  const handleUpload = () => {
-    toast({
-      title: "Funcionalidade em desenvolvimento",
-      description: "O upload de arquivos estará disponível em breve.",
-    });
   };
 
   const handleDownload = (material: any) => {
@@ -128,8 +80,8 @@ export const Materiais = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header 
-        userName={user.nome} 
-        userRole={user.role}
+        userName={user.first_name ? `${user.first_name} ${user.last_name || ''}`.trim() : user.email_institucional}
+        userRole={user.tipo_usuario}
         onLogout={handleLogout}
         onProfile={handleProfile}
       />
@@ -149,21 +101,8 @@ export const Materiais = () => {
         </div>
 
         <div className="grid gap-6 lg:grid-cols-4">
-          {/* Sidebar - Filtros e Upload */}
+          {/* Sidebar - Filtros */}
           <div className="space-y-6">
-            {/* Upload */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-sm wireframe-text">Adicionar Material</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Button onClick={handleUpload} className="w-full">
-                  <Upload className="h-4 w-4 mr-2" />
-                  Upload Arquivo
-                </Button>
-              </CardContent>
-            </Card>
-
             {/* Filtros */}
             <Card>
               <CardHeader>

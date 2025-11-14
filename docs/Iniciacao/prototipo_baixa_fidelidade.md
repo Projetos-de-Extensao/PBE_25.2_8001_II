@@ -84,7 +84,7 @@ Para facilitar o entendimento do projeto e o fluxo, vamos separar em jornadas
     - Saudação ("Olá, [Nome do Aluno]!").
     - Botão principal: **"Procurar Vaga de Monitoria"** (para se candidatar).
     - Botão secundário: **"Buscar Ajuda de um Monitor"** (para agendar).
-    - Acesso rápido ao menu "Minhas Candidaturas" e "Meus Agendamentos".
+    - Acesso rápido ao menu "Minhas Candidaturas".
 
 #### Tela 1.2: Busca de Vagas
 - **Persona Principal:** Aluno Candidato a Monitor.
@@ -144,35 +144,10 @@ Para facilitar o entendimento do projeto e o fluxo, vamos separar em jornadas
 - **Elementos Chave:**
     - Nome e foto do monitor.
     - Breve biografia/apresentação.
-    - Avaliação média (Ex: 4.5 de 5 estrelas).
-    - Comentários e feedbacks de outros alunos.
-    - Calendário com horários disponíveis para agendamento.
+    - Visualização de horários de monitores (somente leitura, sem agendamento).
 
-#### Tela 2.3: Agendamento de Sessão
-- **Persona Principal:** Aluno Consumidor de Monitoria.
-- **Objetivo da Tela:** Simplificar o "Agendamento Complicado", tornando-o direto e visual.
-- **Elementos Chave:**
-    - Visualização do calendário do monitor.
-    - Seleção de um horário disponível.
-    - Campo opcional: "Principais dúvidas que gostaria de tirar".
-    - Botão "Confirmar Agendamento".
+<!-- Removidas telas de agendamento; alunos apenas visualizam monitorias e horários -->
 
-#### Tela 2.4: Meus Agendamentos
-- **Persona Principal:** Aluno Consumidor de Monitoria.
-- **Objetivo da Tela:** Centralizar a gestão de sessões agendadas, permitindo cancelamentos e evitando esquecimentos.
-- **Elementos Chave:**
-    - Lista de sessões futuras com data, hora, monitor e local.
-    - Botão para "Cancelar Agendamento".
-    - Histórico de sessões passadas.
-
-#### Tela 2.5: Avaliação da Sessão
-- **Persona Principal:** Aluno Consumidor de Monitoria.
-- **Objetivo da Tela:** Criar um ciclo de feedback contínuo.
-- **Elementos Chave:**
-    - Prompt para avaliação após a conclusão da sessão.
-    - Sistema de avaliação (ex: 1 a 5 estrelas) em critérios como didática e pontualidade.
-    - Campo para comentário/feedback por escrito.
-    - Botão "Enviar Avaliação".
 
 ---
 
@@ -214,12 +189,6 @@ Para facilitar o entendimento do projeto e o fluxo, vamos separar em jornadas
     - Interface para upload de arquivos (PDFs, slides, listas de exercícios).
     - Organização dos materiais por tópicos ou datas.
 
-#### Tela 3.5: Meus Feedbacks
-- **Persona Principal:** Monitor.
-- **Objetivo da Tela:** Permitir que o monitor veja as avaliações recebidas para melhorar sua didática.
-- **Elementos Chave:**
-    - Visualização da nota média.
-    - Lista anônima de comentários recebidos dos alunos.
 
 ---
 

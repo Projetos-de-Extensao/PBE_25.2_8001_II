@@ -3,19 +3,19 @@ import { Header } from '@/components/portal/Header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import { 
-  Search, 
-  FileSearch, 
-  Calendar, 
-  Users, 
-  BookOpen, 
+import { useEffect } from 'react';
+import {
+  Search,
+  FileSearch,
+  Users,
+  BookOpen,
   BarChart3,
   UserCheck,
-  Clock
+  Calendar
 } from 'lucide-react';
 
 export const Home = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, refreshUser } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -32,12 +32,19 @@ export const Home = () => {
     return null;
   }
 
+  // Atualiza o usuário ao entrar no Home para refletir mudanças de papel (ex: aluno -> monitor)
+  useEffect(() => {
+    void refreshUser();
+  }, [refreshUser]);
+
   const getWelcomeMessage = () => {
-    switch (user.role) {
+    switch (user.tipo_usuario) {
       case 'monitor':
         return 'Gerencie suas sessões de monitoria e ajude outros alunos';
-      case 'coordinator':
+      case 'coordenador':
         return 'Administre o programa de monitorias da instituição';
+      case 'professor':
+        return 'Avalie candidatos e acompanhe seus monitores';
       default:
         return 'Encontre vagas de monitoria ou busque ajuda acadêmica';
     }
@@ -49,29 +56,29 @@ export const Home = () => {
         <CardHeader>
           <CardTitle className="flex items-center space-x-2 wireframe-text">
             <Search className="h-5 w-5" />
-            <span>Procurar Vaga de Monitoria</span>
+            <span>Procurar Vagas</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground mb-4">
-            Encontre oportunidades de monitoria em diversas disciplinas
+            Veja vagas abertas e candidate-se às monitorias
           </p>
-          <Button size="sm">Buscar Vagas</Button>
+          <Button size="sm">Vagas</Button>
         </CardContent>
       </Card>
 
-      <Card className="cursor-pointer hover:bg-wireframe-light transition-colors" onClick={() => navigate('/student/monitores')}>
+      <Card className="cursor-pointer hover:bg-wireframe-light transition-colors" onClick={() => navigate('/student/candidaturas')}>
         <CardHeader>
           <CardTitle className="flex items-center space-x-2 wireframe-text">
-            <Users className="h-5 w-5" />
-            <span>Buscar Ajuda de um Monitor</span>
+            <FileSearch className="h-5 w-5" />
+            <span>Minhas Candidaturas</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground mb-4">
-            Agende sessões de monitoria para tirar suas dúvidas
+            Acompanhe o status das suas candidaturas realizadas
           </p>
-          <Button size="sm">Buscar Monitores</Button>
+          <Button size="sm">Candidaturas</Button>
         </CardContent>
       </Card>
     </div>
@@ -121,21 +128,6 @@ export const Home = () => {
             Registre presença e atividades das sessões
           </p>
           <Button size="sm">Registrar</Button>
-        </CardContent>
-      </Card>
-
-      <Card className="cursor-pointer hover:bg-wireframe-light transition-colors" onClick={() => navigate('/monitor/materiais')}>
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2 wireframe-text">
-            <BookOpen className="h-5 w-5" />
-            <span>Meus Materiais</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground mb-4">
-            Organize e compartilhe materiais de estudo
-          </p>
-          <Button size="sm">Ver Materiais</Button>
         </CardContent>
       </Card>
     </div>
@@ -190,34 +182,29 @@ export const Home = () => {
     </div>
   );
 
-  const getQuickLinks = () => {
-    const commonLinks = [
-      { label: 'Meus Agendamentos', href: '/agendamentos', icon: Clock },
-    ];
-
-    if (user.role === 'student') {
-      return [
-        ...commonLinks,
-        { label: 'Minhas Candidaturas', href: '/student/candidaturas', icon: FileSearch },
-      ];
-    }
-
-    if (user.role === 'monitor') {
-      return [
-        ...commonLinks,
-        { label: 'Meus Feedbacks', href: '/monitor/feedbacks', icon: Users },
-      ];
-    }
-
-    return commonLinks;
-  };
+  const getProfessorActions = () => (
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <Card className="cursor-pointer hover:bg-wireframe-light transition-colors" onClick={() => navigate('/professor/dashboard')}>
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2 wireframe-text">
+            <BookOpen className="h-5 w-5" />
+            <span>Área do Professor</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground mb-4">Avalie candidaturas e acompanhe monitores</p>
+          <Button size="sm">Entrar</Button>
+        </CardContent>
+      </Card>
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-background">
 
       <Header 
-        userName={user.nome ? user.nome : (user.first_name ? user.first_name + ' ' + (user.last_name || '') : user.email_institucional)}
-        userRole={user.role}
+        userName={user.first_name ? `${user.first_name} ${user.last_name || ''}`.trim() : user.email_institucional}
+        userRole={user.tipo_usuario}
         onLogout={handleLogout}
         onProfile={handleProfile}
       />
@@ -227,7 +214,7 @@ export const Home = () => {
 
         <div className="mb-8">
           <h1 className="wireframe-header">
-            Olá, {user.nome ? user.nome.split(' ')[0] : (user.first_name ? user.first_name : user.email_institucional)}!
+            Olá, {user.first_name || user.email_institucional.split('@')[0]}!
           </h1>
           <p className="text-muted-foreground text-lg">{getWelcomeMessage()}</p>
         </div>
@@ -235,48 +222,12 @@ export const Home = () => {
         {/* Main Actions */}
         <div className="mb-8">
           <h2 className="wireframe-subheader">Ações Principais</h2>
-          {user.role === 'student' && getStudentActions()}
-          {user.role === 'monitor' && getMonitorActions()}
-          {user.role === 'coordinator' && getCoordinatorActions()}
+          {user.tipo_usuario === 'aluno' && getStudentActions()}
+          {user.tipo_usuario === 'monitor' && getMonitorActions()}
+          {user.tipo_usuario === 'coordenador' && getCoordinatorActions()}
+          {user.tipo_usuario === 'professor' && getProfessorActions()}
         </div>
 
-        {/* Quick Links */}
-        <div className="mb-8">
-          <h2 className="wireframe-subheader">Acesso Rápido</h2>
-          <div className="flex flex-wrap gap-2">
-            {getQuickLinks().map((link, index) => (
-              <Button 
-                key={index}
-                variant="outline" 
-                size="sm"
-                onClick={() => navigate(link.href)}
-                className="flex items-center space-x-1"
-              >
-                <link.icon className="h-4 w-4" />
-                <span>{link.label}</span>
-              </Button>
-            ))}
-          </div>
-        </div>
-
-        {/* Recent Activity / Notifications */}
-        <div className="wireframe-section">
-          <h2 className="wireframe-subheader">Avisos e Notificações</h2>
-          <div className="space-y-3">
-            <div className="p-3 bg-wireframe-light rounded border-l-4 border-wireframe-dark">
-              <p className="text-sm wireframe-text">
-                <strong>Novo:</strong> Sistema de avaliação de monitores implementado
-              </p>
-              <p className="text-xs text-muted-foreground">Há 2 dias</p>
-            </div>
-            <div className="p-3 bg-wireframe-light rounded border-l-4 border-wireframe-medium">
-              <p className="text-sm wireframe-text">
-                Período de inscrições para monitoria do próximo semestre: 15-30 de dezembro
-              </p>
-              <p className="text-xs text-muted-foreground">Há 1 semana</p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );

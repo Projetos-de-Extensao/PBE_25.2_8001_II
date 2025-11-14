@@ -19,6 +19,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<void>;
   register: (userData: any) => Promise<void>;
   logout: () => void;
+  refreshUser: () => Promise<User | null>;
   isAuthenticated: boolean;
   isLoading: boolean;
 }
@@ -73,11 +74,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(null);
   };
 
+  const refreshUser = async (): Promise<User | null> => {
+    try {
+      if (!api.auth.isAuthenticated()) return null;
+      const currentUser = await api.auth.getCurrentUser();
+      setUser(currentUser);
+      return currentUser;
+    } catch (e) {
+      console.error('Erro ao atualizar usuário atual:', e);
+      return null;
+    }
+  };
+
   const value = {
     user,
     login,
     register,
     logout,
+    refreshUser,
     isAuthenticated: !!user,
     isLoading,
   };

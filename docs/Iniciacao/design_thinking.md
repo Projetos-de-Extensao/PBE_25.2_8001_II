@@ -36,7 +36,7 @@ title: Design Thinking
 - Sofrem com falta de centralização das vagas.
 - Passam por processos burocráticos e lentos.
 - Não têm clareza sobre critérios e prazos.
-- Sentem insegurança e ansiedade pela falta de feedback e transparência.
+- Sentem insegurança e ansiedade pela falta de transparência.
 
 #### Alunos (consumidores de monitoria)
 - Dificuldade para descobrir monitores disponíveis.
@@ -74,7 +74,6 @@ title: Design Thinking
 
 - Dashboard da coordenação: visão de vagas, candidaturas.
   
-- Sistema de feedback: avaliações dos alunos sobre os monitores e relatórios de desempenho.
 
 #### **3.4. Prototipagem**
 
@@ -98,7 +97,6 @@ title: Design Thinking
 
 - Coordenação: consegue gerar relatórios de atividades sem uso de planilhas externas.
 
-- Feedback contínuo: pesquisa de satisfação após sessão de monitoria.
 
 ---
 

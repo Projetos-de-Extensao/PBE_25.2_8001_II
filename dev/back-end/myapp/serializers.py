@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import (
     Usuario, Disciplina, Monitoria, Candidatura, 
-    MonitoriaAtiva, HorarioMonitoria
+    MonitoriaAtiva, HorarioMonitoria, RegistroAtividadeMonitor
 )
 
 User = get_user_model()
@@ -59,6 +59,7 @@ class MonitoriaSerializer(serializers.ModelSerializer):
     disciplina_nome = serializers.CharField(source='disciplina.nome', read_only=True)
     coordenador_nome = serializers.SerializerMethodField()
     candidaturas_count = serializers.SerializerMethodField()
+    professor_responsavel_nome = serializers.SerializerMethodField()
     
     class Meta:
         model = Monitoria
@@ -66,7 +67,7 @@ class MonitoriaSerializer(serializers.ModelSerializer):
             'id', 'disciplina', 'disciplina_nome', 'coordenador', 
             'coordenador_nome', 'titulo', 'descricao', 'requisitos', 
             'vagas', 'data_criacao', 'data_limite', 'status', 'ativo',
-            'candidaturas_count'
+            'candidaturas_count', 'professor_responsavel', 'professor_responsavel_nome'
         ]
         read_only_fields = ['id', 'data_criacao', 'coordenador']
     
@@ -75,6 +76,11 @@ class MonitoriaSerializer(serializers.ModelSerializer):
     
     def get_candidaturas_count(self, obj):
         return obj.candidaturas.count()
+    
+    def get_professor_responsavel_nome(self, obj):
+        if obj.professor_responsavel:
+            return f"{obj.professor_responsavel.first_name} {obj.professor_responsavel.last_name}"
+        return None
 
 class MonitoriaDetailSerializer(MonitoriaSerializer):
     disciplina_detail = DisciplinaSerializer(source='disciplina', read_only=True)
@@ -98,9 +104,11 @@ class CandidaturaSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'aluno', 'aluno_nome', 'monitoria', 'monitoria_titulo',
             'disciplina_nome', 'status', 'data_candidatura', 'data_avaliacao',
-            'observacoes_aluno', 'observacoes_coordenador'
+            'observacoes_aluno', 'observacoes_coordenador',
+            'avaliacao_professor_status', 'avaliacao_professor_observacoes',
+            'avaliacao_professor_data'
         ]
-        read_only_fields = ['id', 'data_candidatura', 'data_avaliacao', 'aluno']
+        read_only_fields = ['id', 'data_candidatura', 'data_avaliacao', 'aluno', 'avaliacao_professor_data']
     
     def get_aluno_nome(self, obj):
         return f"{obj.aluno.first_name} {obj.aluno.last_name}"
@@ -120,6 +128,9 @@ class CandidaturaDetailSerializer(CandidaturaSerializer):
         fields = CandidaturaSerializer.Meta.fields + ['aluno_detail', 'monitoria_detail']
 
 class HorarioMonitoriaSerializer(serializers.ModelSerializer):
+    """
+    Horários de disponibilidade do monitor (somente visualização para alunos).
+    """
     class Meta:
         model = HorarioMonitoria
         fields = [
@@ -149,6 +160,30 @@ class MonitoriaAtivaSerializer(serializers.ModelSerializer):
         if obj.candidatura and obj.candidatura.monitoria:
             return obj.candidatura.monitoria.disciplina.nome
         return "N/A"
+
+class RegistroAtividadeMonitorSerializer(serializers.ModelSerializer):
+    monitor_nome = serializers.SerializerMethodField()
+    disciplina_nome = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = RegistroAtividadeMonitor
+        fields = [
+            'id', 'monitoria_ativa', 'data', 'descricao', 'horas', 'status',
+            'observacao_validacao', 'validado_por', 'data_validacao',
+            'monitor_nome', 'disciplina_nome', 'registrado_por'
+        ]
+        read_only_fields = ['id', 'status', 'validado_por', 'data_validacao', 'registrado_por']
+    
+    def get_monitor_nome(self, obj):
+        if obj.monitoria_ativa and obj.monitoria_ativa.candidatura and obj.monitoria_ativa.candidatura.aluno:
+            m = obj.monitoria_ativa.candidatura.aluno
+            return f"{m.first_name} {m.last_name}"
+        return None
+    
+    def get_disciplina_nome(self, obj):
+        if obj.monitoria_ativa and obj.monitoria_ativa.candidatura and obj.monitoria_ativa.candidatura.monitoria:
+            return obj.monitoria_ativa.candidatura.monitoria.disciplina.nome
+        return None
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})

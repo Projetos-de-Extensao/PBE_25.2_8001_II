@@ -18,42 +18,11 @@ import {
   CalendarDays
 } from 'lucide-react';
 
-// Mock data - in real app would fetch from API
-const mockSessoes = [
-  {
-    id: '1',
-    data: '2024-11-20',
-    horario: '14:00 - 16:00',
-    disciplina: 'Cálculo I',
-    alunos: [
-      { id: '1', nome: 'João Silva', presente: false },
-      { id: '2', nome: 'Maria Santos', presente: false },
-      { id: '3', nome: 'Pedro Costa', presente: false }
-    ],
-    topicosAbordados: '',
-    observacoes: '',
-    status: 'pendente'
-  },
-  {
-    id: '2',
-    data: '2024-11-19',
-    horario: '16:00 - 18:00',
-    disciplina: 'Cálculo I',
-    alunos: [
-      { id: '4', nome: 'Ana Lima', presente: true },
-      { id: '5', nome: 'Carlos Rocha', presente: true }
-    ],
-    topicosAbordados: 'Derivadas parciais, regra da cadeia',
-    observacoes: 'Alunos apresentaram boa evolução no entendimento',
-    status: 'concluida'
-  }
-];
-
 export const Sessoes = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [sessoes, setSessoes] = useState(mockSessoes);
+  const [sessoes, setSessoes] = useState([]);
   const [sessaoSelecionada, setSessaoSelecionada] = useState<string | null>('1');
 
   const handleLogout = () => {
@@ -113,8 +82,8 @@ export const Sessoes = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header 
-        userName={user.nome} 
-        userRole={user.role}
+        userName={user.first_name ? `${user.first_name} ${user.last_name || ''}`.trim() : user.email_institucional}
+        userRole={user.tipo_usuario}
         onLogout={handleLogout}
         onProfile={handleProfile}
       />

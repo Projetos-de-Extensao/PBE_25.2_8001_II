@@ -120,8 +120,8 @@ export const Feedbacks = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header 
-        userName={user.nome} 
-        userRole={user.role}
+        userName={user.first_name ? `${user.first_name} ${user.last_name || ''}`.trim() : user.email_institucional}
+        userRole={user.tipo_usuario}
         onLogout={handleLogout}
         onProfile={handleProfile}
       />

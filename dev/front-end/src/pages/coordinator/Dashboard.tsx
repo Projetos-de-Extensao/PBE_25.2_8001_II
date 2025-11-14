@@ -16,63 +16,6 @@ import {
   CheckCircle
 } from 'lucide-react';
 
-// Mock data - in real app would fetch from API
-const mockDashboardData = {
-  estatisticas: {
-    vagasAbertas: 12,
-    candidaturasPendentes: 28,
-    monitoresAtivos: 35,
-    horasRealizadas: 1247
-  },
-  vagasRecentes: [
-    {
-      id: '1',
-      disciplina: 'Cálculo I',
-      professor: 'Prof. Ana Silva',
-      candidatos: 8,
-      status: 'aberta',
-      prazo: '2024-12-01'
-    },
-    {
-      id: '2', 
-      disciplina: 'Programação',
-      professor: 'Prof. João Costa',
-      candidatos: 12,
-      status: 'em_analise',
-      prazo: '2024-11-25'
-    },
-    {
-      id: '3',
-      disciplina: 'Estatística',
-      professor: 'Prof. Maria Lima',
-      candidatos: 6,
-      status: 'aberta',
-      prazo: '2024-12-05'
-    }
-  ],
-  candidaturasUrgentes: [
-    {
-      id: '1',
-      aluno: 'Pedro Santos',
-      disciplina: 'Cálculo I',
-      dataCanditatura: '2024-11-20',
-      diasPendente: 3
-    },
-    {
-      id: '2',
-      aluno: 'Ana Costa',
-      disciplina: 'Programação', 
-      dataCanditatura: '2024-11-18',
-      diasPendente: 5
-    }
-  ],
-  alertas: [
-    'Prazo para análise de candidaturas de Cálculo I vence em 3 dias',
-    '5 candidaturas pendentes há mais de 7 dias',
-    'Relatório mensal deve ser enviado até 30/11'
-  ]
-};
-
 export const Dashboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -104,13 +47,17 @@ export const Dashboard = () => {
     return null;
   }
 
-  const dashboard = mockDashboardData;
+  const dashboard = {
+    estatisticas: { vagasAbertas: 0, candidaturasPendentes: 0, monitoresAtivos: 0, horasRealizadas: 0 },
+    vagasRecentes: [],
+    candidaturasUrgentes: []
+  };
 
   return (
     <div className="min-h-screen bg-background">
       <Header 
-        userName={user.nome} 
-        userRole={user.role}
+        userName={user.first_name ? `${user.first_name} ${user.last_name || ''}`.trim() : user.email_institucional}
+        userRole={user.tipo_usuario}
         onLogout={handleLogout}
         onProfile={handleProfile}
       />
@@ -192,10 +139,6 @@ export const Dashboard = () => {
                           <div className="flex items-center space-x-1">
                             <Users className="h-3 w-3" />
                             <span>{vaga.candidatos} candidatos</span>
-                          </div>
-                          <div className="flex items-center space-x-1">
-                            <Calendar className="h-3 w-3" />
-                            <span>Prazo: {vaga.prazo}</span>
                           </div>
                         </div>
                         <Button variant="outline" size="sm" onClick={() => navigate(`/coordinator/vaga/${vaga.id}`)}>
@@ -280,25 +223,6 @@ export const Dashboard = () => {
                   <BarChart3 className="h-4 w-4 mr-2" />
                   Gerar Relatórios
                 </Button>
-              </CardContent>
-            </Card>
-
-            {/* Alertas */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-sm wireframe-text">Alertas e Lembretes</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {dashboard.alertas.map((alerta, index) => (
-                    <div key={index} className="p-3 bg-yellow-50 rounded-lg border border-yellow-200">
-                      <div className="flex items-start space-x-2">
-                        <AlertCircle className="h-4 w-4 text-yellow-600 mt-0.5" />
-                        <p className="text-sm text-yellow-800">{alerta}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
               </CardContent>
             </Card>
 

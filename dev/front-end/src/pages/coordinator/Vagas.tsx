@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '@/components/portal/Header';
@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
+import { api } from '@/lib/api';
 import { 
   Search, 
   Plus, 
@@ -17,84 +18,40 @@ import {
   Play,
   Users,
   Calendar,
-  Filter
+  Filter,
+  X
 } from 'lucide-react';
 
-// Mock data - in real app would fetch from API
-const mockVagas = [
-  {
-    id: '1',
-    disciplina: 'Cálculo I',
-    professor: 'Prof. Ana Silva',
-    departamento: 'Matemática',
-    vagasTotal: 3,
-    candidatos: 8,
-    status: 'aberta',
-    dataInicio: '2024-11-15',
-    dataFim: '2024-12-01',
-    cargaHoraria: '20h/semana'
-  },
-  {
-    id: '2', 
-    disciplina: 'Programação I',
-    professor: 'Prof. João Costa',
-    departamento: 'Computação',
-    vagasTotal: 2,
-    candidatos: 12,
-    status: 'em_analise',
-    dataInicio: '2024-11-10',
-    dataFim: '2024-11-25',
-    cargaHoraria: '15h/semana'
-  },
-  {
-    id: '3',
-    disciplina: 'Estatística Aplicada',
-    professor: 'Prof. Maria Lima',
-    departamento: 'Matemática',
-    vagasTotal: 2,
-    candidatos: 6,
-    status: 'aberta',
-    dataInicio: '2024-11-20',
-    dataFim: '2024-12-05',
-    cargaHoraria: '20h/semana'
-  },
-  {
-    id: '4',
-    disciplina: 'Física I',
-    professor: 'Prof. Carlos Santos',
-    departamento: 'Física',
-    vagasTotal: 4,
-    candidatos: 15,
-    status: 'pausada',
-    dataInicio: '2024-11-01',
-    dataFim: '2024-11-30',
-    cargaHoraria: '25h/semana'
-  },
-  {
-    id: '5',
-    disciplina: 'Contabilidade Geral',
-    professor: 'Prof. Paula Oliveira',
-    departamento: 'Administração',
-    vagasTotal: 2,
-    candidatos: 4,
-    status: 'encerrada',
-    dataInicio: '2024-10-15',
-    dataFim: '2024-11-15',
-    cargaHoraria: '15h/semana'
-  }
-];
-
-const departamentos = ['Todos', 'Matemática', 'Computação', 'Física', 'Administração', 'Engenharia'];
-const statusOptions = ['Todos', 'Aberta', 'Em Análise', 'Pausada', 'Encerrada'];
+// Status alinhados ao backend: aberta, fechada, cancelada
+const statusOptions = ['Todos', 'Aberta', 'Fechada', 'Cancelada'];
 
 export const Vagas = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [vagas, setVagas] = useState(mockVagas);
+  const [vagas, setVagas] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [busca, setBusca] = useState('');
-  const [filtroDepartamento, setFiltroDepartamento] = useState('Todos');
   const [filtroStatus, setFiltroStatus] = useState('Todos');
+
+  useEffect(() => {
+    const loadVagas = async () => {
+      try {
+        const data = await api.monitorias.list();
+        setVagas(data.results || data);
+      } catch (error) {
+        console.error('Erro ao carregar monitorias:', error);
+        toast({
+          title: 'Erro ao carregar vagas',
+          description: 'Não foi possível carregar as vagas de monitoria.',
+          variant: 'destructive'
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadVagas();
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -109,40 +66,59 @@ export const Vagas = () => {
     switch (status) {
       case 'aberta':
         return <Badge className="bg-green-100 text-green-800">Aberta</Badge>;
-      case 'em_analise':
-        return <Badge className="bg-yellow-100 text-yellow-800">Em Análise</Badge>;
-      case 'pausada':
-        return <Badge className="bg-orange-100 text-orange-800">Pausada</Badge>;
-      case 'encerrada':
-        return <Badge className="bg-gray-100 text-gray-800">Encerrada</Badge>;
+      case 'fechada':
+        return <Badge className="bg-gray-100 text-gray-800">Fechada</Badge>;
+      case 'cancelada':
+        return <Badge className="bg-red-100 text-red-800">Cancelada</Badge>;
       default:
         return <Badge variant="outline">Status</Badge>;
     }
   };
 
-  const handleToggleStatus = (vagaId: string, currentStatus: string) => {
-    const newStatus = currentStatus === 'pausada' ? 'aberta' : 'pausada';
-    setVagas(vagas.map(vaga => 
-      vaga.id === vagaId ? { ...vaga, status: newStatus } : vaga
-    ));
-    
-    toast({
-      title: `Vaga ${newStatus === 'aberta' ? 'reativada' : 'pausada'}`,
-      description: `A vaga foi ${newStatus === 'aberta' ? 'reativada e está recebendo candidaturas' : 'pausada temporariamente'}.`,
-    });
+  const handleToggleStatus = async (vagaId: string, currentStatus: string) => {
+    // Toggle entre aberta e fechada. Cancelada não é reativada aqui.
+    const newStatus = currentStatus === 'fechada' ? 'aberta' : 'fechada';
+    // Atualiza otimista
+    setVagas(vagas.map(v => v.id === vagaId ? { ...v, status: newStatus } : v));
+    try {
+      await api.monitorias.update(Number(vagaId), { status: newStatus });
+      toast({
+        title: `Vaga ${newStatus === 'aberta' ? 'reativada' : 'fechada'}`,
+        description: newStatus === 'aberta' ? 'A vaga voltou a aceitar candidaturas.' : 'A vaga foi fechada temporariamente.'
+      });
+    } catch (error) {
+      // Reverte em caso de falha
+      setVagas(vagas.map(v => v.id === vagaId ? { ...v, status: currentStatus } : v));
+      toast({
+        title: 'Erro ao atualizar status',
+        description: 'Não foi possível salvar a alteração.',
+        variant: 'destructive'
+      });
+    }
+  };
+
+  const handleCancelar = async (vagaId: string, currentStatus: string) => {
+    if (!confirm('Confirmar cancelamento permanente desta vaga?')) return;
+    const previous = currentStatus;
+    setVagas(vagas.map(v => v.id === vagaId ? { ...v, status: 'cancelada' } : v));
+    try {
+      await api.monitorias.update(Number(vagaId), { status: 'cancelada' });
+      toast({ title: 'Vaga cancelada', description: 'A vaga foi marcada como cancelada.' });
+    } catch (error) {
+      setVagas(vagas.map(v => v.id === vagaId ? { ...v, status: previous } : v));
+      toast({ title: 'Erro ao cancelar', description: 'Falha ao cancelar a vaga.', variant: 'destructive' });
+    }
   };
 
   const vagasFiltradas = vagas.filter(vaga => {
-    const matchBusca = vaga.disciplina.toLowerCase().includes(busca.toLowerCase()) ||
-                      vaga.professor.toLowerCase().includes(busca.toLowerCase());
-    const matchDepartamento = filtroDepartamento === 'Todos' || vaga.departamento === filtroDepartamento;
+    const matchBusca = vaga.disciplina_nome?.toLowerCase().includes(busca.toLowerCase()) ||
+                      vaga.titulo?.toLowerCase().includes(busca.toLowerCase()) ||
+                      vaga.coordenador_nome?.toLowerCase().includes(busca.toLowerCase());
     const matchStatus = filtroStatus === 'Todos' || 
                        (filtroStatus === 'Aberta' && vaga.status === 'aberta') ||
-                       (filtroStatus === 'Em Análise' && vaga.status === 'em_analise') ||
-                       (filtroStatus === 'Pausada' && vaga.status === 'pausada') ||
-                       (filtroStatus === 'Encerrada' && vaga.status === 'encerrada');
-    
-    return matchBusca && matchDepartamento && matchStatus;
+                       (filtroStatus === 'Fechada' && vaga.status === 'fechada') ||
+                       (filtroStatus === 'Cancelada' && vaga.status === 'cancelada');
+    return matchBusca && matchStatus;
   });
 
   if (!user) {
@@ -153,8 +129,8 @@ export const Vagas = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header 
-        userName={user.nome} 
-        userRole={user.role}
+        userName={user.first_name ? `${user.first_name} ${user.last_name || ''}`.trim() : user.email_institucional}
+        userRole={user.tipo_usuario}
         onLogout={handleLogout}
         onProfile={handleProfile}
       />
@@ -195,20 +171,6 @@ export const Vagas = () => {
                 <CardTitle className="text-sm wireframe-text">Filtros</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div>
-                  <label className="text-xs text-muted-foreground">Departamento</label>
-                  <Select value={filtroDepartamento} onValueChange={setFiltroDepartamento}>
-                    <SelectTrigger className="w-full mt-1">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {departamentos.map((dept) => (
-                        <SelectItem key={dept} value={dept}>{dept}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
                 <div>
                   <label className="text-xs text-muted-foreground">Status</label>
                   <Select value={filtroStatus} onValueChange={setFiltroStatus}>
@@ -285,16 +247,12 @@ export const Vagas = () => {
                       <div key={vaga.id} className="p-4 border border-wireframe-medium rounded-lg">
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex-1">
-                            <h3 className="font-medium wireframe-text">{vaga.disciplina}</h3>
-                            <p className="text-sm text-muted-foreground">{vaga.professor} • {vaga.departamento}</p>
+                            <h3 className="font-medium wireframe-text">{vaga.titulo || vaga.disciplina_nome}</h3>
+                            <p className="text-sm text-muted-foreground">{vaga.coordenador_nome}</p>
                             <div className="flex items-center space-x-4 mt-2 text-sm text-muted-foreground">
                               <div className="flex items-center space-x-1">
                                 <Users className="h-3 w-3" />
                                 <span>{vaga.candidatos} candidatos para {vaga.vagasTotal} vaga{vaga.vagasTotal !== 1 ? 's' : ''}</span>
-                              </div>
-                              <div className="flex items-center space-x-1">
-                                <Calendar className="h-3 w-3" />
-                                <span>Prazo: {vaga.dataFim}</span>
                               </div>
                               <span>• {vaga.cargaHoraria}</span>
                             </div>
@@ -325,23 +283,32 @@ export const Vagas = () => {
                             </Button>
                           </div>
                           
-                          {(vaga.status === 'aberta' || vaga.status === 'pausada') && (
+                          {(vaga.status === 'aberta' || vaga.status === 'fechada') && (
                             <Button 
                               variant="outline" 
                               size="sm"
                               onClick={() => handleToggleStatus(vaga.id, vaga.status)}
                             >
-                              {vaga.status === 'pausada' ? (
+                              {vaga.status === 'fechada' ? (
                                 <>
                                   <Play className="h-4 w-4 mr-1" />
-                                  Reativar
+                                  Reabrir
                                 </>
                               ) : (
                                 <>
                                   <Pause className="h-4 w-4 mr-1" />
-                                  Pausar
+                                  Fechar
                                 </>
                               )}
+                            </Button>
+                          )}
+                          {vaga.status !== 'cancelada' && (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => handleCancelar(vaga.id, vaga.status)}
+                            >
+                              <X className="h-4 w-4 mr-1" /> Cancelar
                             </Button>
                           )}
                         </div>
@@ -352,7 +319,7 @@ export const Vagas = () => {
                   <div className="text-center py-12">
                     <Filter className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                     <p className="text-muted-foreground">
-                      {busca || filtroDepartamento !== 'Todos' || filtroStatus !== 'Todos'
+                      {busca || filtroStatus !== 'Todos'
                         ? 'Nenhuma vaga encontrada com os filtros aplicados'
                         : 'Nenhuma vaga cadastrada ainda'
                       }

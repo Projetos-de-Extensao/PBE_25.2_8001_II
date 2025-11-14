@@ -74,12 +74,20 @@ class Monitoria(models.Model):
         limit_choices_to={'tipo_usuario': 'coordenador'},
         related_name='monitorias_criadas'
     )
+    professor_responsavel = models.ForeignKey(
+        Usuario,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        limit_choices_to={'tipo_usuario': 'professor'},
+        related_name='monitorias_supervisionadas'
+    )
     titulo = models.CharField(max_length=200)
     descricao = models.TextField()
     requisitos = models.TextField(blank=True, null=True)
     vagas = models.IntegerField(default=1, validators=[MinValueValidator(1)])
     data_criacao = models.DateTimeField(auto_now_add=True)
-    data_limite = models.DateField()
+    data_limite = models.DateField(blank=True, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='aberta')
     ativo = models.BooleanField(default=True)
     
@@ -106,6 +114,24 @@ class Candidatura(models.Model):
     data_avaliacao = models.DateTimeField(blank=True, null=True)
     observacoes_aluno = models.TextField(blank=True, null=True)
     observacoes_coordenador = models.TextField(blank=True, null=True)
+    # Avaliação do professor (prévia à decisão do coordenador)
+    AVALIACAO_PROFESSOR_CHOICES = [
+        ('pendente', 'Pendente'),
+        ('aprovado', 'Aprovado'),
+        ('lista_espera', 'Lista de Espera'),
+        ('reprovado', 'Reprovado'),
+    ]
+    avaliacao_professor_status = models.CharField(max_length=20, choices=AVALIACAO_PROFESSOR_CHOICES, default='pendente')
+    avaliacao_professor_observacoes = models.TextField(blank=True, null=True)
+    avaliacao_professor_data = models.DateTimeField(blank=True, null=True)
+    avaliacao_professor = models.ForeignKey(
+        Usuario,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        limit_choices_to={'tipo_usuario': 'professor'},
+        related_name='avaliacoes_candidaturas'
+    )
     
     class Meta:
         unique_together = ['aluno', 'monitoria']
@@ -114,6 +140,11 @@ class Candidatura(models.Model):
         return f"Candidatura: {self.aluno} para {self.monitoria}"
 
 class MonitoriaAtiva(models.Model):
+    """
+    Representa uma monitoria em andamento após aprovação de candidatura.
+    Monitor define horários de disponibilidade (HorarioMonitoria).
+    Alunos visualizam esses horários mas NÃO fazem agendamentos.
+    """
     candidatura = models.OneToOneField(
         Candidatura,
         on_delete=models.CASCADE,
@@ -131,6 +162,10 @@ class MonitoriaAtiva(models.Model):
         return "Monitoria Ativa (sem candidatura)"
 
 class HorarioMonitoria(models.Model):
+    """
+    Horários de disponibilidade definidos pelo MONITOR.
+    Alunos apenas VISUALIZAM esses horários (não há agendamento/reserva).
+    """
     DIAS_SEMANA = [
         ('segunda', 'Segunda-feira'),
         ('terca', 'Terça-feira'),
@@ -153,3 +188,42 @@ class HorarioMonitoria(models.Model):
     
     def __str__(self):
         return f"{self.dia_semana} - {self.hora_inicio} às {self.hora_fim}"
+
+class RegistroAtividadeMonitor(models.Model):
+    """
+    Registro de horas/atividades realizadas pelo monitor, para validação pelo professor supervisor.
+    """
+    STATUS_CHOICES = [
+        ('pendente', 'Pendente'),
+        ('validado', 'Validado'),
+        ('rejeitado', 'Rejeitado'),
+    ]
+
+    monitoria_ativa = models.ForeignKey(
+        MonitoriaAtiva,
+        on_delete=models.CASCADE,
+        related_name='registros_atividade'
+    )
+    data = models.DateField(default=timezone.now)
+    descricao = models.TextField()
+    horas = models.DecimalField(max_digits=5, decimal_places=2, validators=[MinValueValidator(0)])
+    registrado_por = models.ForeignKey(
+        Usuario,
+        on_delete=models.CASCADE,
+        related_name='registros_lancados',
+        limit_choices_to={'tipo_usuario': 'monitor'}
+    )
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pendente')
+    observacao_validacao = models.TextField(blank=True, null=True)
+    validado_por = models.ForeignKey(
+        Usuario,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='registros_validados',
+        limit_choices_to={'tipo_usuario': 'professor'}
+    )
+    data_validacao = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return f"Registro {self.id} - {self.data} - {self.horas}h ({self.get_status_display()})"

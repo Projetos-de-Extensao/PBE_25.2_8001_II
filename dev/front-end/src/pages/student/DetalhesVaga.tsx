@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Header } from '@/components/portal/Header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,52 +7,49 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
-import { 
-  Calendar, 
-  Clock, 
-  Users, 
-  MapPin, 
-  User, 
-  FileText,
-  Send
-} from 'lucide-react';
+import { Calendar, Clock, Users, MapPin, User, FileText, Send } from 'lucide-react';
+import { api } from '@/lib/api';
+import { format } from 'date-fns';
 
-// Mock data - in real app would fetch by ID
-const mockVagaDetails = {
-  id: '1',
-  disciplina: 'Cálculo I',
-  professor: 'Ana Maria Silva',
-  email: 'ana.silva@ibmec.edu.br',
-  vagas: 2,
-  prazo: '15/12/2024',
-  cargaHoraria: '8h/semana',
-  area: 'Exatas',
-  campus: 'Rio de Janeiro',
-  descricao: `Esta monitoria é voltada para alunos que cursam ou cursaram Cálculo I e desejam auxiliar outros estudantes na compreensão dos conceitos fundamentais da disciplina.
-
-As principais atividades incluem:
-• Auxílio na resolução de exercícios de limites, derivadas e integrais
-• Esclarecimento de dúvidas teóricas e práticas
-• Preparação de material de apoio
-• Suporte em horários de plantão de dúvidas
-
-É desejável que o candidato tenha obtido nota igual ou superior a 8,0 na disciplina e demonstre facilidade para explicar conceitos matemáticos de forma didática.`,
-  requisitos: [
-    'Ter cursado Cálculo I com aprovação',
-    'Nota mínima 8,0 na disciplina',
-    'Disponibilidade para 8h semanais',
-    'Facilidade de comunicação e didática',
-    'Experiência prévia em monitoria (desejável)'
-  ]
+type VagaDetalhe = {
+  id: number;
+  disciplina_nome: string;
+  coordenador_nome: string;
+  coordenador: number;
+  titulo: string;
+  descricao: string;
+  requisitos: string;
+  vagas: number;
+  status: 'aberta' | 'em_analise' | 'encerrada';
 };
 
 export const DetalhesVaga = () => {
   const { vagaId } = useParams();
-  const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const { toast } = useToast();
+
+  const [vaga, setVaga] = useState<VagaDetalhe | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [motivation, setMotivation] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const MIN_MOTIVATION = 50;
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        if (!vagaId) throw new Error('Vaga inválida');
+        const data = await api.monitorias.get(Number(vagaId));
+        setVaga(data);
+      } catch (e) {
+        setLoadError('Não foi possível carregar a vaga.');
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
+  }, [vagaId]);
 
   const handleLogout = () => {
     logout();
@@ -64,31 +61,37 @@ export const DetalhesVaga = () => {
   };
 
   const handleSubmitCandidatura = async () => {
-    if (!motivation.trim()) {
+    if (!motivation.trim() || motivation.trim().length < MIN_MOTIVATION) {
       toast({
-        title: "Campo obrigatório",
-        description: "Por favor, descreva sua motivação para ser monitor.",
-        variant: "destructive",
+        title: 'Campo obrigatório',
+        description: `Descreva sua motivação (mínimo de ${MIN_MOTIVATION} caracteres).`,
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (!vagaId) {
+      toast({
+        title: 'Vaga inválida',
+        description: 'Não foi possível identificar a vaga.',
+        variant: 'destructive',
       });
       return;
     }
 
     setIsSubmitting(true);
     try {
-      // Mock API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
+      await api.candidaturas.create({ monitoria: Number(vagaId), observacoes_aluno: motivation });
       toast({
-        title: "Candidatura enviada com sucesso!",
+        title: 'Candidatura enviada com sucesso!',
         description: "Acompanhe o status da sua candidatura na seção 'Minhas Candidaturas'.",
       });
-      
       navigate('/student/candidaturas');
-    } catch (error) {
+    } catch (error: any) {
       toast({
-        title: "Erro ao enviar candidatura",
-        description: "Tente novamente em alguns instantes.",
-        variant: "destructive",
+        title: 'Erro ao enviar candidatura',
+        description: error?.message || 'Tente novamente em alguns instantes.',
+        variant: 'destructive',
       });
     } finally {
       setIsSubmitting(false);
@@ -100,14 +103,21 @@ export const DetalhesVaga = () => {
     return null;
   }
 
-  // In real app, would handle loading and error states for vaga fetch
-  const vaga = mockVagaDetails;
+  if (loading) return null;
+
+  if (loadError || !vaga) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <p className="text-muted-foreground">{loadError || 'Vaga não encontrada'}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
-      <Header 
-        userName={user.nome} 
-        userRole={user.role}
+      <Header
+        userName={`${user.first_name} ${user.last_name}`}
+        userRole={user.tipo_usuario}
         onLogout={handleLogout}
         onProfile={handleProfile}
       />
@@ -122,85 +132,79 @@ export const DetalhesVaga = () => {
         <div className="grid gap-6 lg:grid-cols-3">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Vaga Header */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-2xl wireframe-text">{vaga.disciplina}</CardTitle>
+                <CardTitle className="text-2xl wireframe-text">{vaga.titulo}</CardTitle>
                 <div className="flex items-center space-x-2 text-muted-foreground">
                   <User className="h-4 w-4" />
-                  <span>Prof. {vaga.professor}</span>
-                  <span>•</span>
-                  <span>{vaga.email}</span>
+                  <span>{vaga.coordenador_nome}</span>
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="grid gap-3 md:grid-cols-2 text-sm">
                   <div className="flex items-center space-x-2">
                     <Users className="h-4 w-4 text-muted-foreground" />
-                    <span>{vaga.vagas} {vaga.vagas === 1 ? 'vaga' : 'vagas'} disponível</span>
+                    <span>
+                      {vaga.vagas} {vaga.vagas === 1 ? 'vaga' : 'vagas'} disponível
+                    </span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Clock className="h-4 w-4 text-muted-foreground" />
-                    <span>{vaga.cargaHoraria}</span>
+                    <span>Carga horária a definir</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <MapPin className="h-4 w-4 text-muted-foreground" />
-                    <span>Campus {vaga.campus}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Calendar className="h-4 w-4 text-muted-foreground" />
-                    <span>Prazo: {vaga.prazo}</span>
+                    <span>Campus a definir</span>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Descrição */}
             <Card>
               <CardHeader>
                 <CardTitle className="wireframe-text">Descrição da Vaga</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="whitespace-pre-line text-muted-foreground">
-                  {vaga.descricao}
-                </div>
+                <div className="whitespace-pre-line text-muted-foreground">{vaga.descricao}</div>
               </CardContent>
             </Card>
 
-            {/* Requisitos */}
             <Card>
               <CardHeader>
                 <CardTitle className="wireframe-text">Requisitos</CardTitle>
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2">
-                  {vaga.requisitos.map((requisito, index) => (
-                    <li key={index} className="flex items-start space-x-2 text-muted-foreground">
-                      <span className="text-wireframe-accent mt-1">•</span>
-                      <span>{requisito}</span>
-                    </li>
-                  ))}
+                  {vaga.requisitos
+                    ? vaga.requisitos.split('\n').map((line, index) => (
+                        <li key={index} className="flex items-start space-x-2 text-muted-foreground">
+                          <span className="text-wireframe-accent mt-1">•</span>
+                          <span>{line}</span>
+                        </li>
+                      ))
+                    : (
+                        <li className="text-muted-foreground">Sem requisitos específicos.</li>
+                      )}
                 </ul>
               </CardContent>
             </Card>
           </div>
 
-          {/* Sidebar - Candidatura */}
+          {/* Sidebar */}
           <div className="space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle className="wireframe-text">Candidatar-se</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {/* Dados preenchidos automaticamente */}
                 <div className="space-y-3 text-sm">
                   <div>
                     <label className="font-medium">Nome:</label>
-                    <p className="text-muted-foreground">{user.nome}</p>
+                    <p className="text-muted-foreground">{`${user.first_name} ${user.last_name}`}</p>
                   </div>
                   <div>
                     <label className="font-medium">E-mail:</label>
-                    <p className="text-muted-foreground">{user.email}</p>
+                    <p className="text-muted-foreground">{user.email_institucional}</p>
                   </div>
                   {user.matricula && (
                     <div>
@@ -210,11 +214,8 @@ export const DetalhesVaga = () => {
                   )}
                 </div>
 
-                {/* Motivação */}
                 <div className="space-y-2">
-                  <Label htmlFor="motivation">
-                    Por que você gostaria de ser monitor desta disciplina?
-                  </Label>
+                  <Label htmlFor="motivation">Por que você gostaria de ser monitor desta disciplina?</Label>
                   <Textarea
                     id="motivation"
                     placeholder="Descreva sua motivação, experiência na disciplina e como pode contribuir para o aprendizado dos outros alunos..."
@@ -223,31 +224,25 @@ export const DetalhesVaga = () => {
                     rows={6}
                     className="resize-none"
                   />
-                  <p className="text-xs text-muted-foreground">
-                    Mínimo de 50 caracteres
+                  <p className={`text-xs ${motivation.trim().length < MIN_MOTIVATION ? 'text-red-500' : 'text-muted-foreground'}`}>
+                    {motivation.trim().length}/{MIN_MOTIVATION} caracteres mínimos
                   </p>
                 </div>
 
-                {/* Upload de histórico (opcional) */}
                 <div className="space-y-2">
                   <Label>Histórico Escolar (opcional)</Label>
                   <div className="wireframe-placeholder h-20 cursor-pointer hover:bg-wireframe-light transition-colors">
                     <div className="flex flex-col items-center justify-center space-y-1">
                       <FileText className="h-5 w-5 text-muted-foreground" />
-                      <span className="text-xs text-muted-foreground">
-                        Clique para anexar
-                      </span>
+                      <span className="text-xs text-muted-foreground">Clique para anexar</span>
                     </div>
                   </div>
-                  <p className="text-xs text-muted-foreground">
-                    Formatos aceitos: PDF (máx. 5MB)
-                  </p>
+                  <p className="text-xs text-muted-foreground">Formatos aceitos: PDF (máx. 5MB)</p>
                 </div>
 
-                {/* Botão de envio */}
-                <Button 
+                <Button
                   onClick={handleSubmitCandidatura}
-                  disabled={isSubmitting || motivation.length < 50}
+                  disabled={user.tipo_usuario !== 'aluno' || isSubmitting || motivation.trim().length < MIN_MOTIVATION}
                   className="w-full"
                 >
                   {isSubmitting ? (
@@ -255,7 +250,7 @@ export const DetalhesVaga = () => {
                   ) : (
                     <>
                       <Send className="h-4 w-4 mr-2" />
-                      Enviar Candidatura
+                      {user.tipo_usuario === 'aluno' ? 'Enviar Candidatura' : 'Apenas alunos podem se candidatar'}
                     </>
                   )}
                 </Button>
@@ -266,7 +261,6 @@ export const DetalhesVaga = () => {
               </CardContent>
             </Card>
 
-            {/* Informações adicionais */}
             <Card>
               <CardHeader>
                 <CardTitle className="text-sm wireframe-text">Informações Importantes</CardTitle>

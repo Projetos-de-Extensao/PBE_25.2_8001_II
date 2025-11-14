@@ -19,3 +19,5 @@ build/
 dist/
 *.egg-info/
 dev/back-end/
+
+acessos.md

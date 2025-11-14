@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
-type StatusType = "recebida" | "em-analise" | "aprovada" | "rejeitada" | "ativa" | "encerrada" | "agendada" | "concluida" | "cancelada";
+type StatusType = "recebida" | "em-analise" | "aprovada" | "rejeitada" | "reprovada" | "pendente" | "ativa" | "encerrada" | "agendada" | "concluida" | "cancelada";
 
 interface StatusBadgeProps {
   status: StatusType;
@@ -11,6 +11,8 @@ interface StatusBadgeProps {
 export const StatusBadge = ({ status, className }: StatusBadgeProps) => {
   const getStatusConfig = (status: StatusType) => {
     switch (status) {
+      case "pendente":
+        return { label: "Pendente", variant: "outline" as const };
       case "recebida":
         return { label: "Recebida", variant: "secondary" as const };
       case "em-analise":
@@ -19,6 +21,8 @@ export const StatusBadge = ({ status, className }: StatusBadgeProps) => {
         return { label: "Aprovada", variant: "default" as const };
       case "rejeitada":
         return { label: "Rejeitada", variant: "secondary" as const };
+      case "reprovada":
+        return { label: "Reprovada", variant: "secondary" as const };
       case "ativa":
         return { label: "Ativa", variant: "default" as const };
       case "encerrada":

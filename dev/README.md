@@ -60,6 +60,7 @@ O frontend estará em: **http://localhost:5173**
 ## 📊 BANCO DE DADOS JÁ POPULADO
 
 O banco contém:
+
 - ✅ 6 usuários (coordenador, alunos, monitor)
 - ✅ 4 disciplinas (POO, Estrutura de Dados, BD, Web)
 - ✅ 4 monitorias (3 abertas, 1 fechada)
@@ -67,6 +68,7 @@ O banco contém:
 - ✅ 1 monitoria ativa com horários
 
 **Para repovoar o banco:**
+
 ```bash
 cd dev/back-end
 python populate_database.py
@@ -202,7 +204,6 @@ dev/
 1. Login → `ana.oliveira@ibmec.edu.br` / `senha123`
 2. Ver suas monitorias ativas
 3. Gerenciar horários de atendimento
-4. Ver feedbacks (futuro)
 
 ---
 

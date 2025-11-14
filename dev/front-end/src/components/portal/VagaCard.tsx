@@ -7,7 +7,7 @@ interface VagaCardProps {
   disciplina: string;
   professor: string;
   vagas: number;
-  prazo: string;
+  prazo?: string;
   cargaHoraria?: string;
   area?: string;
   campus?: string;
@@ -54,10 +54,12 @@ export const VagaCard = ({
             <span className="text-wireframe-accent">{cargaHoraria}</span>
           </div>
           
-          <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-            <Calendar className="h-4 w-4" />
-            <span>Prazo: {prazo}</span>
-          </div>
+          {prazo && (
+            <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+              <Calendar className="h-4 w-4" />
+              <span>Prazo: {prazo}</span>
+            </div>
+          )}
           
           <div className="flex items-center justify-between text-xs text-muted-foreground">
             <span>Área: {area}</span>

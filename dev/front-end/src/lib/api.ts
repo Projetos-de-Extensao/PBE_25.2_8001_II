@@ -270,8 +270,14 @@ export const api = {
       });
       
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(JSON.stringify(error));
+        const contentType = response.headers.get('content-type');
+        if (contentType?.includes('application/json')) {
+          const error = await response.json();
+          throw new Error(error.error || error.detail || JSON.stringify(error));
+        } else {
+          const text = await response.text();
+          throw new Error(`Erro no servidor (${response.status}): ${text.slice(0, 100)}`);
+        }
       }
       return response.json();
     },
@@ -289,6 +295,18 @@ export const api = {
       return response.json();
     },
 
+    async avaliarProfessor(id: number, status: 'aprovado' | 'lista_espera' | 'reprovado', observacoes?: string) {
+      const response = await fetchWithAuth(`/candidaturas/${id}/avaliar_professor/`, {
+        method: 'POST',
+        body: JSON.stringify({ status, observacoes }),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Erro ao avaliar (professor)');
+      }
+      return response.json();
+    },
+
     async cancelar(id: number) {
       const response = await fetchWithAuth(`/candidaturas/${id}/cancelar/`, {
         method: 'POST',
@@ -297,6 +315,48 @@ export const api = {
       if (!response.ok) {
         const error = await response.json();
         throw new Error(error.error || 'Erro ao cancelar candidatura');
+      }
+      return response.json();
+    },
+  },
+
+  // Registros de Atividade (Horas)
+  registrosAtividade: {
+    async list() {
+      const response = await fetchWithAuth('/registros-atividade/');
+      if (!response.ok) throw new Error('Erro ao buscar registros');
+      return response.json();
+    },
+    async create(data: { monitoria_ativa: number; data: string; descricao: string; horas: number }) {
+      const response = await fetchWithAuth('/registros-atividade/', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Erro ao registrar atividade');
+      }
+      return response.json();
+    },
+    async validar(id: number, observacao?: string) {
+      const response = await fetchWithAuth(`/registros-atividade/${id}/validar/`, {
+        method: 'POST',
+        body: JSON.stringify({ observacao }),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Erro ao validar atividade');
+      }
+      return response.json();
+    },
+    async rejeitar(id: number, observacao?: string) {
+      const response = await fetchWithAuth(`/registros-atividade/${id}/rejeitar/`, {
+        method: 'POST',
+        body: JSON.stringify({ observacao }),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Erro ao rejeitar atividade');
       }
       return response.json();
     },

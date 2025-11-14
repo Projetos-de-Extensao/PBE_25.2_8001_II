@@ -3,49 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { Header } from '@/components/portal/Header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { 
-  Calendar, 
-  Clock, 
-  Users, 
-  FileText, 
-  MessageSquare, 
+import {
+  Calendar,
+  Clock,
+  Users,
+  FileText,
   BookOpen,
   CalendarDays,
   UserCheck
 } from 'lucide-react';
-
-// Mock data - in real app would fetch from API
-const mockMonitorData = {
-  proximasSessoes: [
-    {
-      id: '1',
-      aluno: 'João Silva',
-      disciplina: 'Cálculo I',
-      data: 'Hoje',
-      horario: '14:00 - 15:00',
-      topicos: 'Derivadas'
-    },
-    {
-      id: '2',
-      aluno: 'Maria Santos', 
-      disciplina: 'Cálculo I',
-      data: 'Amanhã',
-      horario: '16:00 - 17:00',
-      topicos: 'Integrais'
-    }
-  ],
-  avisos: [
-    'Lembrete: Atualizar registro de presença até sexta-feira',
-    'Nova política de cancelamentos - máximo 2h de antecedência',
-    'Material de apoio disponível na pasta compartilhada'
-  ],
-  estatisticas: {
-    sessoesMes: 28,
-    alunosAtendidos: 15,
-    avaliacaoMedia: 4.8,
-    horasRealizadas: 45
-  }
-};
 
 export const Dashboard = () => {
   const { user, logout } = useAuth();
@@ -65,13 +31,16 @@ export const Dashboard = () => {
     return null;
   }
 
-  const monitor = mockMonitorData;
+  const monitor = {
+    proximasSessoes: [],
+    estatisticas: { sessoesMes: 0, alunosAtendidos: 0, horasRealizadas: 0 }
+  };
 
   return (
     <div className="min-h-screen bg-background">
-      <Header 
-        userName={user.nome} 
-        userRole={user.role}
+      <Header
+        userName={user.first_name ? `${user.first_name} ${user.last_name || ''}`.trim() : user.email_institucional}
+        userRole={user.tipo_usuario}
         onLogout={handleLogout}
         onProfile={handleProfile}
       />
@@ -79,11 +48,11 @@ export const Dashboard = () => {
       <div className="academic-layout py-6">
         <div className="mb-6">
           <h1 className="wireframe-header">Dashboard do Monitor</h1>
-          <p className="text-muted-foreground">Bem-vindo de volta, {user.nome}!</p>
+          <p className="text-muted-foreground">Bem-vindo de volta, {user.first_name || user.email_institucional.split('@')[0]}!</p>
         </div>
 
         {/* Statistics Cards */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mb-6">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Sessões neste mês</CardTitle>
@@ -101,16 +70,6 @@ export const Dashboard = () => {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold wireframe-text">{monitor.estatisticas.alunosAtendidos}</div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Avaliação média</CardTitle>
-              <MessageSquare className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold wireframe-text">{monitor.estatisticas.avaliacaoMedia}</div>
             </CardContent>
           </Card>
 
@@ -170,21 +129,6 @@ export const Dashboard = () => {
               </CardContent>
             </Card>
 
-            {/* Avisos da Coordenação */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="wireframe-text">Avisos da Coordenação</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  {monitor.avisos.map((aviso, index) => (
-                    <div key={index} className="p-3 bg-wireframe-light rounded-lg border border-wireframe-medium">
-                      <p className="text-sm text-muted-foreground">{aviso}</p>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
           </div>
 
           {/* Sidebar - Quick Actions */}
@@ -212,36 +156,6 @@ export const Dashboard = () => {
                   Registrar Atividades
                 </Button>
 
-                <Button 
-                  onClick={() => navigate('/monitor/materiais')}
-                  className="w-full justify-start"
-                  variant="outline"
-                >
-                  <BookOpen className="h-4 w-4 mr-2" />
-                  Materiais de Apoio
-                </Button>
-
-                <Button 
-                  onClick={() => navigate('/monitor/feedbacks')}
-                  className="w-full justify-start"
-                  variant="outline"
-                >
-                  <MessageSquare className="h-4 w-4 mr-2" />
-                  Meus Feedbacks
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* Tips */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-sm wireframe-text">Dicas</CardTitle>
-              </CardHeader>
-              <CardContent className="text-xs text-muted-foreground space-y-2">
-                <p>• Sempre confirme a presença dos alunos</p>
-                <p>• Mantenha seus materiais organizados</p>
-                <p>• Responda aos feedbacks quando necessário</p>
-                <p>• Atualize sua agenda regularmente</p>
               </CardContent>
             </Card>
           </div>

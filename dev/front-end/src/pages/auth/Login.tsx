@@ -117,10 +117,11 @@ export const Login = () => {
         <div className="wireframe-section text-center text-sm">
           <p className="wireframe-subheader">Credenciais de Demonstração:</p>
           <div className="space-y-1 text-muted-foreground">
-            <p><strong>Aluno:</strong> joao.silva@ibmec.edu.br</p>
-            <p><strong>Monitor:</strong> maria.santos@ibmec.edu.br</p>
-            <p><strong>Coordenador:</strong> carlos.lima@ibmec.edu.br</p>
-            <p><em>(Qualquer senha funciona)</em></p>
+            <p><strong>Aluno:</strong> aluno@ibmec.edu.br</p>
+            <p><strong>Monitor:</strong> monitor@ibmec.edu.br</p>
+            <p><strong>Coordenador:</strong> coordenador@ibmec.edu.br</p>
+            <p><strong>Professor:</strong> professor@ibmec.edu.br</p>
+            <p><strong>Senha:</strong> Senha123456</p>
           </div>
         </div>
       </div>

@@ -1,53 +1,68 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '@/components/portal/Header';
 import { StatusBadge } from '@/components/portal/StatusBadge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
-import { Calendar, User, Clock, FileText } from 'lucide-react';
+import { Calendar, User, FileText } from 'lucide-react';
+import { api } from '@/lib/api';
+import { format } from 'date-fns';
 
-// Mock data
-const mockCandidaturas = [
-  {
-    id: '1',
-    disciplina: 'Cálculo I',
-    professor: 'Ana Maria Silva',
-    dataCandidatura: '10/11/2024',
-    status: 'em-analise' as const,
-    observacoes: 'Candidatura em processo de avaliação pela coordenação.'
-  },
-  {
-    id: '2',
-    disciplina: 'Programação Orientada a Objetos',
-    professor: 'Carlos Roberto',
-    dataCandidatura: '05/11/2024',
-    status: 'aprovada' as const,
-    observacoes: 'Parabéns! Sua candidatura foi aprovada. Entre em contato com o professor para combinar os detalhes.'
-  },
-  {
-    id: '3',
-    disciplina: 'Estatística Aplicada',
-    professor: 'João Pedro Lima',
-    dataCandidatura: '01/11/2024',
-    status: 'rejeitada' as const,
-    observacoes: 'Candidatura não aprovada. Considere aplicar para outras disciplinas ou aprimorar seus conhecimentos na área.'
-  },
-  {
-    id: '4',
-    disciplina: 'Contabilidade Geral',
-    professor: 'Maria João Santos',
-    dataCandidatura: '25/10/2024',
-    status: 'recebida' as const,
-    observacoes: 'Candidatura recebida com sucesso. Aguarde o processo de análise.'
-  }
-];
+type Candidatura = {
+  id: number;
+  monitoria: number;
+  monitoria_titulo: string;
+  disciplina_nome: string;
+  status: 'pendente' | 'aprovada' | 'reprovada' | 'cancelada';
+  data_candidatura: string; // ISO
+  data_avaliacao?: string | null;
+  observacoes_aluno?: string | null;
+  observacoes_coordenador?: string | null;
+};
+
+interface PaginatedCandidaturas {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: Candidatura[];
+}
 
 export const MinhasCandidaturas = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, refreshUser } = useAuth();
   const navigate = useNavigate();
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
+  const [candidaturas, setCandidaturas] = useState<PaginatedCandidaturas | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [checkedApproval, setCheckedApproval] = useState(false);
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const data: PaginatedCandidaturas = await api.candidaturas.list();
+        setCandidaturas(data);
+        // Se houver alguma aprovada, atualiza usuário e redireciona para painel do monitor
+        const anyApproved = Array.isArray((data as any).results)
+          ? (data as any).results.some((c: any) => c.status === 'aprovada')
+          : Array.isArray(data)
+          ? (data as any).some((c: any) => c.status === 'aprovada')
+          : false;
+        if (anyApproved && !checkedApproval) {
+          const updated = await refreshUser();
+          setCheckedApproval(true);
+          if (updated?.tipo_usuario === 'monitor') {
+            navigate('/monitor/dashboard');
+          }
+        }
+      } catch (e: any) {
+        setError('Não foi possível carregar suas candidaturas.');
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
+  }, [checkedApproval, navigate, refreshUser]);
 
   const handleLogout = () => {
     logout();
@@ -58,14 +73,12 @@ export const MinhasCandidaturas = () => {
     navigate('/auth/profile');
   };
 
+  const candList = candidaturas?.results || [];
   const filteredCandidaturas = selectedStatus === 'all' 
-    ? mockCandidaturas 
-    : mockCandidaturas.filter(c => c.status === selectedStatus);
+    ? candList 
+    : candList.filter(c => c.status === selectedStatus);
 
-  if (!user) {
-    navigate('/auth/login');
-    return null;
-  }
+  const displayName = user ? `${user.first_name} ${user.last_name}`.trim() || user.email_institucional : 'Usuário';
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -80,9 +93,9 @@ export const MinhasCandidaturas = () => {
     switch (status) {
       case 'aprovada':
         return 'Entre em contato com o professor para iniciar as atividades de monitoria.';
-      case 'rejeitada':
+      case 'reprovada':
         return 'Considere se candidatar para outras vagas disponíveis.';
-      case 'em-analise':
+      case 'pendente':
         return 'Aguarde o resultado da análise. Você será notificado por e-mail.';
       default:
         return 'Sua candidatura foi recebida e será analisada em breve.';
@@ -92,8 +105,8 @@ export const MinhasCandidaturas = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header 
-        userName={user.nome} 
-        userRole={user.role}
+        userName={displayName}
+        userRole={user?.tipo_usuario}
         onLogout={handleLogout}
         onProfile={handleProfile}
       />
@@ -121,56 +134,64 @@ export const MinhasCandidaturas = () => {
               size="sm"
               onClick={() => setSelectedStatus('all')}
             >
-              Todas ({mockCandidaturas.length})
+              Todas ({candList.length})
             </Button>
             <Button 
-              variant={selectedStatus === 'recebida' ? 'default' : 'outline'}
+              variant={selectedStatus === 'pendente' ? 'default' : 'outline'}
               size="sm"
-              onClick={() => setSelectedStatus('recebida')}
+              onClick={() => setSelectedStatus('pendente')}
             >
-              Recebidas ({mockCandidaturas.filter(c => c.status === 'recebida').length})
-            </Button>
-            <Button 
-              variant={selectedStatus === 'em-analise' ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setSelectedStatus('em-analise')}
-            >
-              Em Análise ({mockCandidaturas.filter(c => c.status === 'em-analise').length})
+              Pendentes ({candList.filter(c => c.status === 'pendente').length})
             </Button>
             <Button 
               variant={selectedStatus === 'aprovada' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setSelectedStatus('aprovada')}
             >
-              Aprovadas ({mockCandidaturas.filter(c => c.status === 'aprovada').length})
+              Aprovadas ({candList.filter(c => c.status === 'aprovada').length})
             </Button>
             <Button 
-              variant={selectedStatus === 'rejeitada' ? 'default' : 'outline'}
+              variant={selectedStatus === 'reprovada' ? 'default' : 'outline'}
               size="sm"
-              onClick={() => setSelectedStatus('rejeitada')}
+              onClick={() => setSelectedStatus('reprovada')}
             >
-              Rejeitadas ({mockCandidaturas.filter(c => c.status === 'rejeitada').length})
+              Reprovadas ({candList.filter(c => c.status === 'reprovada').length})
+            </Button>
+            <Button 
+              variant={selectedStatus === 'cancelada' ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setSelectedStatus('cancelada')}
+            >
+              Canceladas ({candList.filter(c => c.status === 'cancelada').length})
             </Button>
           </div>
         </div>
 
         {/* Lista de Candidaturas */}
         <div className="space-y-4">
-          {filteredCandidaturas.length > 0 ? (
+          {loading ? (
+            <div className="wireframe-section text-center py-8">
+              <p className="text-muted-foreground">Carregando suas candidaturas...</p>
+            </div>
+          ) : error ? (
+            <div className="wireframe-section text-center py-8">
+              <p className="text-destructive">{error}</p>
+            </div>
+          ) : filteredCandidaturas.length > 0 ? (
             filteredCandidaturas.map((candidatura) => (
               <Card key={candidatura.id}>
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div>
                       <CardTitle className="text-lg wireframe-text">
-                        {candidatura.disciplina}
+                        {candidatura.monitoria_titulo}
                       </CardTitle>
                       <div className="flex items-center space-x-2 text-sm text-muted-foreground mt-1">
                         <User className="h-4 w-4" />
-                        <span>Prof. {candidatura.professor}</span>
+                        <span>{candidatura.disciplina_nome}</span>
                       </div>
                     </div>
-                    <StatusBadge status={candidatura.status} />
+                    <StatusBadge status={candidatura.status as any} />
                   </div>
                 </CardHeader>
                 <CardContent>
@@ -178,13 +199,27 @@ export const MinhasCandidaturas = () => {
                     <div className="flex items-center space-x-4 text-sm text-muted-foreground">
                       <div className="flex items-center space-x-1">
                         <Calendar className="h-4 w-4" />
-                        <span>Candidatura enviada em {candidatura.dataCandidatura}</span>
+                        {(() => {
+                          const d = new Date(candidatura.data_candidatura);
+                          const safeDate = isNaN(d.getTime()) ? candidatura.data_candidatura : format(d, 'dd/MM/yyyy');
+                          return <span>Candidatura enviada em {safeDate}</span>;
+                        })()}
                       </div>
                     </div>
 
                     <div className="p-3 bg-wireframe-light rounded-lg">
                       <h4 className="text-sm font-medium wireframe-text mb-2">Observações:</h4>
-                      <p className="text-sm text-muted-foreground">{candidatura.observacoes}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {candidatura.observacoes_coordenador || candidatura.observacoes_aluno || (
+                          candidatura.status === 'pendente'
+                            ? 'Candidatura recebida e aguardando análise.'
+                            : candidatura.status === 'aprovada'
+                            ? 'Parabéns! Sua candidatura foi aprovada.'
+                            : candidatura.status === 'reprovada'
+                            ? 'Candidatura não aprovada.'
+                            : 'Candidatura cancelada.'
+                        )}
+                      </p>
                     </div>
 
                     <div className="p-3 bg-wireframe-light rounded-lg border-l-4 border-wireframe-accent">
@@ -205,7 +240,7 @@ export const MinhasCandidaturas = () => {
                       </div>
                     )}
 
-                    {candidatura.status === 'rejeitada' && (
+                    {candidatura.status === 'reprovada' && (
                       <div className="flex space-x-2">
                         <Button size="sm" onClick={() => navigate('/student/vagas')}>
                           Ver Outras Vagas
@@ -230,22 +265,6 @@ export const MinhasCandidaturas = () => {
               </Button>
             </div>
           )}
-        </div>
-
-        {/* Ações Rápidas */}
-        <div className="mt-8 wireframe-section">
-          <h2 className="wireframe-subheader">Ações Rápidas</h2>
-          <div className="flex flex-wrap gap-2">
-            <Button variant="outline" size="sm" onClick={() => navigate('/student/vagas')}>
-              Buscar Novas Vagas
-            </Button>
-            <Button variant="outline" size="sm" onClick={() => navigate('/student/monitores')}>
-              Buscar Monitores
-            </Button>
-            <Button variant="outline" size="sm">
-              Dúvidas sobre Monitoria
-            </Button>
-          </div>
         </div>
       </div>
     </div>

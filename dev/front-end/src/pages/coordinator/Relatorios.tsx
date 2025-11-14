@@ -20,31 +20,7 @@ import {
   GraduationCap
 } from 'lucide-react';
 
-// Mock data for statistics
-const mockEstatisticas = {
-  resumoGeral: {
-    totalMonitores: 35,
-    totalSessoes: 1247,
-    horasRealizadas: 2840,
-    satisfacaoMedia: 4.6,
-    taxaAprovacao: 87,
-    disciplinasAtivas: 18
-  },
-  horasPorDisciplina: [
-    { disciplina: 'Cálculo I', horas: 320, monitores: 4 },
-    { disciplina: 'Programação I', horas: 280, monitores: 3 },
-    { disciplina: 'Física I', horas: 260, monitores: 4 },
-    { disciplina: 'Estatística', horas: 200, monitores: 2 },
-    { disciplina: 'Química Geral', horas: 180, monitores: 3 }
-  ],
-  performanceMonitores: [
-    { nome: 'Maria Santos', disciplina: 'Cálculo I', sessoes: 45, avaliacao: 4.9, horas: 90 },
-    { nome: 'João Silva', disciplina: 'Programação I', sessoes: 38, avaliacao: 4.8, horas: 76 },
-    { nome: 'Ana Costa', disciplina: 'Física I', sessoes: 42, avaliacao: 4.7, horas: 84 },
-    { nome: 'Carlos Lima', disciplina: 'Estatística', sessoes: 35, avaliacao: 4.6, horas: 70 },
-    { nome: 'Paula Oliveira', disciplina: 'Química Geral', sessoes: 33, avaliacao: 4.8, horas: 66 }
-  ]
-};
+
 
 const tiposRelatorio = [
   { value: 'geral', label: 'Relatório Geral do Programa' },
@@ -80,7 +56,11 @@ export const Relatorios = () => {
     });
   };
 
-  const stats = mockEstatisticas;
+  const stats = {
+    resumoGeral: { totalMonitores: 0, totalSessoes: 0, horasRealizadas: 0, satisfacaoMedia: 0, taxaAprovacao: 0, disciplinasAtivas: 0 },
+    horasPorDisciplina: [],
+    performanceMonitores: []
+  };
 
   if (!user) {
     navigate('/auth/login');
@@ -90,8 +70,8 @@ export const Relatorios = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header 
-        userName={user.nome} 
-        userRole={user.role}
+        userName={user.first_name ? `${user.first_name} ${user.last_name || ''}`.trim() : user.email_institucional}
+        userRole={user.tipo_usuario}
         onLogout={handleLogout}
         onProfile={handleProfile}
       />

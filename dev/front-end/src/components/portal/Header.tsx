@@ -11,16 +11,17 @@ import ibmecLogo from '@/assets/ibmec-logo.png';
 
 interface HeaderProps {
   userName?: string;
-  userRole?: "student" | "monitor" | "coordinator";
+  userRole?: "aluno" | "monitor" | "coordenador" | "professor";
   onLogout?: () => void;
   onProfile?: () => void;
 }
 
-export const Header = ({ userName = "Usuário", userRole = "student", onLogout, onProfile }: HeaderProps) => {
+export const Header = ({ userName = "Usuário", userRole = "aluno", onLogout, onProfile }: HeaderProps) => {
   const getRoleLabel = (role: string) => {
     switch (role) {
       case "monitor": return "Monitor";
-      case "coordinator": return "Coordenador";
+      case "coordenador": return "Coordenador";
+      case "professor": return "Professor";
       default: return "Aluno";
     }
   };
