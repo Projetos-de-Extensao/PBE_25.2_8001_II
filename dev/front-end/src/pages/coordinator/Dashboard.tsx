@@ -8,7 +8,6 @@ import {
   Users, 
   FileText, 
   Calendar, 
-  BarChart3,
   TrendingUp,
   Clock,
   UserCheck,
@@ -215,14 +214,7 @@ export const Dashboard = () => {
                   Analisar Candidatos
                 </Button>
 
-                <Button 
-                  onClick={() => navigate('/coordinator/relatorios')}
-                  className="w-full justify-start"
-                  variant="outline"
-                >
-                  <BarChart3 className="h-4 w-4 mr-2" />
-                  Gerar Relatórios
-                </Button>
+                {/* Botão 'Gerar Relatórios' removido */}
               </CardContent>
             </Card>
 

@@ -180,20 +180,7 @@ export const Home = () => {
         </CardContent>
       </Card>
 
-      <Card className="cursor-pointer hover:bg-wireframe-light transition-colors" onClick={() => navigate('/coordinator/relatorios')}>
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2 wireframe-text">
-            <BarChart3 className="h-5 w-5" />
-            <span>Relatórios</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground mb-4">
-            Gere relatórios e estatísticas do programa
-          </p>
-          <Button size="sm">Ver Relatórios</Button>
-        </CardContent>
-      </Card>
+      {/* Card de Relatórios removido */}
     </div>
   );
 

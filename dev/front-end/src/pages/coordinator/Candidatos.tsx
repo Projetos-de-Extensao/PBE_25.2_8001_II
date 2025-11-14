@@ -299,7 +299,8 @@ export const Candidatos = () => {
                   </div>
 
                   {/* Ações */}
-                  {candidaturaAtual.status === 'pendente' && (
+                  {candidaturaAtual.status === 'pendente' &&
+                   ['aprovado', 'lista_espera'].includes((candidaturaAtual as any).avaliacao_professor_status || '') && (
                     <div className="flex items-center space-x-3 pt-4 border-t border-wireframe-medium">
                       <Button 
                         onClick={() => handleAprovar(candidaturaAtual.id)}

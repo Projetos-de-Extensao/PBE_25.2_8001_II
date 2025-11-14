@@ -261,17 +261,7 @@ export const DetalhesVaga = () => {
               </CardContent>
             </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-sm wireframe-text">Informações Importantes</CardTitle>
-              </CardHeader>
-              <CardContent className="text-xs text-muted-foreground space-y-2">
-                <p>• O processo seletivo pode incluir entrevista</p>
-                <p>• Resultado em até 5 dias úteis</p>
-                <p>• Bolsa mensal conforme regulamento</p>
-                <p>• Certificado de participação emitido</p>
-              </CardContent>
-            </Card>
+            {/* Box de Informações Importantes removido conforme solicitação */}
           </div>
         </div>
       </div>

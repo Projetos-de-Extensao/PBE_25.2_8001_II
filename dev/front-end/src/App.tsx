@@ -35,7 +35,6 @@ import { Materiais } from "./pages/monitor/Materiais";
 import { Dashboard as CoordinatorDashboard } from "./pages/coordinator/Dashboard";
 import { Vagas } from "./pages/coordinator/Vagas";
 import { Candidatos } from "./pages/coordinator/Candidatos";
-import { Relatorios } from "./pages/coordinator/Relatorios";
 import { EditarVaga } from "./pages/coordinator/EditarVaga";
 import { VagaCandidatos } from "./pages/coordinator/VagaCandidatos";
 import { NovaVaga } from "./pages/coordinator/NovaVaga";
@@ -95,7 +94,7 @@ const App = () => (
             <Route path="/coordinator/vagas/editar/:vagaId" element={<ProtectedRoute roles={["coordenador"]}><EditarVaga /></ProtectedRoute>} />
             <Route path="/coordinator/vaga/:vagaId" element={<ProtectedRoute roles={["coordenador"]}><VagaCandidatos /></ProtectedRoute>} />
             <Route path="/coordinator/candidatos" element={<ProtectedRoute roles={["coordenador"]}><Candidatos /></ProtectedRoute>} />
-            <Route path="/coordinator/relatorios" element={<ProtectedRoute roles={["coordenador"]}><Relatorios /></ProtectedRoute>} />
+            {/* Relatórios removido */}
 
             {/* Professor Routes */}
             <Route path="/professor/dashboard" element={<ProtectedRoute roles={["professor"]}><ProfessorDashboard /></ProtectedRoute>} />

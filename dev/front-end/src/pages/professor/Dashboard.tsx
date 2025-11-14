@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Header } from '@/components/portal/Header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Users, ClipboardList, CheckCircle2 } from 'lucide-react';
+import { Users, ClipboardList } from 'lucide-react';
 
 export const Dashboard = () => {
   const { user, logout } = useAuth();
@@ -31,7 +31,7 @@ export const Dashboard = () => {
           <p className="text-muted-foreground">Área do professor para avaliar candidatos e acompanhar monitores</p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2">
           <Card className="cursor-pointer" onClick={() => navigate('/professor/candidaturas')}>
             <CardHeader>
               <CardTitle className="wireframe-text flex items-center space-x-2">
@@ -56,15 +56,7 @@ export const Dashboard = () => {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="wireframe-text flex items-center space-x-2">
-                <CheckCircle2 className="h-5 w-5" />
-                <span>Validação de Horas</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">Aprove/reprove horas registradas pelos monitores.</CardContent>
-          </Card>
+          {/* Box "Validação de Horas" removido conforme solicitação */}
         </div>
       </div>
     </div>
