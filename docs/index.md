@@ -4,7 +4,16 @@ hide:
   - toc
 ---  
 
+
 # PBE_25.2_8001_II
+
+## Novidades do Sistema (Nov/2025)
+
+- Landing page pública: qualquer usuário pode ver vagas abertas sem login.
+- Fluxo de aprovação: professor avalia primeiro, coordenador só aprova após parecer do professor.
+- Disciplinas: criação livre, código manual e reuso automático.
+- Remoção de satisfação, relatórios e métricas extras.
+- UI simplificada: menus e botões só mostram recursos ativos.
 
 
 

@@ -1,6 +1,16 @@
 # ✅ INTEGRAÇÃO BACKEND + FRONTEND COMPLETA!
 
-## 🎉 O QUE FOI FEITO
+
+## 🎉 O QUE FOI FEITO (Novembro/2025)
+
+### Principais mudanças recentes:
+- **Landing page pública**: qualquer usuário pode ver as vagas abertas sem login.
+- **Fluxo de aprovação**: agora, o professor avalia o candidato primeiro; só após o parecer do professor o coordenador pode aprovar/reprovar.
+- **Disciplinas**: criação livre, com código manual e reuso automático.
+- **Remoção de métricas e relatórios**: satisfação dos alunos, relatórios e dashboards extras foram removidos.
+- **Box de validação de horas**: removido do dashboard do professor.
+- **UI simplificada**: perfil só mostra nome/email, sem métricas extras; menus e botões de recursos removidos não aparecem mais.
+
 
 ### ✅ BACKEND (100% FUNCIONAL)
 
@@ -84,16 +94,20 @@
 4. INF301 - Desenvolvimento Web
 
 ### Monitorias Criadas
-1. Monitoria de POO - Noturno (Aberta, 2 vagas, prazo: +15 dias)
-2. Monitoria de Estrutura de Dados (Aberta, 1 vaga, prazo: +10 dias)
-3. Monitoria de Banco de Dados (Fechada, prazo expirado)
-4. Monitoria de Desenvolvimento Web (Aberta, 2 vagas, prazo: +20 dias)
+1. Monitoria de POO - Noturno (Aberta, 2 vagas)
+2. Monitoria de Estrutura de Dados (Aberta, 1 vaga)
+3. Monitoria de Banco de Dados (Fechada)
+4. Monitoria de Desenvolvimento Web (Aberta, 2 vagas)
 
 ### Candidaturas Criadas
 1. João → POO (Pendente)
 2. Maria → POO (Aprovada + vira monitoria ativa)
 3. Pedro → Estrutura de Dados (Reprovada)
 4. João → Desenvolvimento Web (Pendente)
+
+**Novo fluxo:**
+- O professor responsável avalia a candidatura primeiro (aprovado ou lista de espera).
+- Só após o parecer do professor o coordenador pode aprovar/reprovar.
 
 ### Monitoria Ativa
 - Maria Santos em POO
@@ -240,9 +254,10 @@ dev/
 - [x] Gerenciar horários
 
 ### Permissões
-- [x] Aluno: visualizar, candidatar-se
-- [x] Coordenador: tudo + criar/gerenciar
-- [x] Monitor: visualizar, gerenciar suas monitorias
+- [x] Aluno: visualizar vagas, candidatar-se, acompanhar status
+- [x] Coordenador: criar/gerenciar vagas, aprovar candidaturas (após parecer do professor)
+- [x] Professor: avaliar candidaturas, validar horas dos monitores
+- [x] Monitor: visualizar e gerenciar suas monitorias
 
 ## 🎯 PRÓXIMOS PASSOS (OPCIONAL)
 
@@ -258,7 +273,7 @@ dev/
    - [ ] Sistema de mensagens
    - [ ] Notificações
    - [ ] Avaliações de monitores
-   - [ ] Relatórios e dashboards
+   - [ ] (Relatórios e dashboards removidos do escopo)
    
 3. Deploy:
    - [ ] Configurar para produção

@@ -11,11 +11,18 @@
 
 
 ## Sobre 
-Este projeto consiste no desenvolvimento de uma plataforma web centralizada, denominada "Portal de Monitorias Ibmec", destinada a otimizar e organizar o processo de seleção de monitores acadêmicos exclusivamente para a comunidade do Ibmec.
 
-A dor que o projeto busca resolver é a descentralização das informações sobre vagas de monitoria, que atualmente são divulgadas em múltiplos canais de forma desestruturada. A plataforma oferecerá um ambiente único onde professores e departamentos ("Empregadores") poderão publicar vagas detalhadas, e os alunos ("Candidatos") poderão buscar, filtrar e se candidatar a essas oportunidades de forma simplificada.
+Este projeto é uma plataforma web para gestão de monitorias acadêmicas do Ibmec, focada em simplificar o processo de seleção e acompanhamento de monitores.
 
-O sistema permitirá que os alunos criem perfis, armazenem seus documentos (como currículo e histórico escolar) para facilitar múltiplas candidaturas, e acompanhem o status de seus processos seletivos. Para os professores, a plataforma oferecerá um painel para gerenciar as vagas publicadas e os candidatos inscritos, tornando o processo de seleção mais eficiente e transparente.
+### Principais mudanças recentes:
+- **Landing page pública**: qualquer usuário pode ver as vagas abertas sem login.
+- **Fluxo de aprovação**: agora, o professor avalia o candidato primeiro; só após o parecer do professor o coordenador pode aprovar/reprovar.
+- **Disciplinas**: criação livre, com código manual e reuso automático.
+- **Remoção de métricas e relatórios**: satisfação dos alunos, relatórios e dashboards extras foram removidos.
+- **Box de validação de horas**: removido do dashboard do professor.
+- **UI simplificada**: perfil só mostra nome/email, sem métricas extras; menus e botões de recursos removidos não aparecem mais.
+
+O sistema permite que alunos busquem e se candidatem a vagas, professores avaliem candidatos e validem horas, e coordenadores gerenciem vagas e aprovações. Todas as etapas são persistidas via API REST.
 
 ## Instalação 
 **Linguagens**: Python, Django<br>
