@@ -22,6 +22,7 @@ import { BuscarVagas } from "./pages/student/BuscarVagas"; // legacy list view (
 import { MonitoriasKanban } from "./pages/student/MonitoriasKanban";
 import { DetalhesVaga } from "./pages/student/DetalhesVaga";
 import { MinhasCandidaturas } from "./pages/student/MinhasCandidaturas";
+import { MonitoresAtivos } from "./pages/student/MonitoresAtivos";
 // Removed student scheduling and monitor search pages
 
 // Monitor Pages
@@ -74,6 +75,10 @@ const App = () => (
             <Route
               path="/student/candidaturas"
               element={<ProtectedRoute roles={["aluno"]}><MinhasCandidaturas /></ProtectedRoute>}
+            />
+            <Route
+              path="/student/monitores"
+              element={<ProtectedRoute roles={["aluno"]}><MonitoresAtivos /></ProtectedRoute>}
             />
             {/* Removed routes related to aluno agendamento and monitor profiles */}
             

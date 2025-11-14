@@ -77,20 +77,24 @@ export const Candidatos = () => {
   const handleAprovar = async (candidaturaId: string) => {
     try {
       await api.candidaturas.avaliar(Number(candidaturaId), 'aprovada');
-      
+
       setCandidaturas(candidaturas.map(c =>
         c.id === candidaturaId ? { ...c, status: 'aprovada' } : c
       ));
-      
+
       toast({
         title: "Candidatura aprovada",
         description: "O aluno será notificado por e-mail sobre a aprovação.",
       });
-    } catch (error) {
+    } catch (e: any) {
+      const msg: string = e?.message || '';
+      const needsProfessorEval = msg.toLowerCase().includes('professor') || msg.toLowerCase().includes('avaliação');
       toast({
-        title: "Erro ao aprovar",
-        description: "Não foi possível aprovar a candidatura.",
-        variant: "destructive"
+        title: needsProfessorEval ? 'Aprovação bloqueada' : 'Erro ao aprovar',
+        description: needsProfessorEval
+          ? 'É necessário o parecer do professor (aprovado ou lista de espera) antes do coordenador aprovar.'
+          : (msg || 'Não foi possível aprovar a candidatura.'),
+        variant: 'destructive'
       });
     }
   };
@@ -107,11 +111,12 @@ export const Candidatos = () => {
         title: "Candidatura rejeitada",
         description: "O aluno será notificado por e-mail sobre a decisão.",
       });
-    } catch (error) {
+    } catch (e: any) {
+      const msg: string = e?.message || '';
       toast({
-        title: "Erro ao rejeitar",
-        description: "Não foi possível rejeitar a candidatura.",
-        variant: "destructive"
+        title: 'Erro ao rejeitar',
+        description: msg || 'Não foi possível rejeitar a candidatura.',
+        variant: 'destructive'
       });
     }
   };
@@ -285,6 +290,10 @@ export const Candidatos = () => {
                       <div className="flex items-center justify-between p-3 bg-wireframe-light rounded-lg">
                         <span className="text-sm">Status:</span>
                         <span className="text-sm font-medium">{(candidaturaAtual as any).status}</span>
+                      </div>
+                      <div className="flex items-center justify-between p-3 bg-wireframe-light rounded-lg">
+                        <span className="text-sm">Parecer do professor:</span>
+                        <span className="text-sm font-medium">{(candidaturaAtual as any).avaliacao_professor_status || 'pendente'}</span>
                       </div>
                     </div>
                   </div>

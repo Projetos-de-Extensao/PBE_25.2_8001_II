@@ -81,6 +81,21 @@ export const Home = () => {
           <Button size="sm">Candidaturas</Button>
         </CardContent>
       </Card>
+      
+      <Card className="cursor-pointer hover:bg-wireframe-light transition-colors" onClick={() => navigate('/student/monitores')}>
+        <CardHeader>
+          <CardTitle className="flex items-center space-x-2 wireframe-text">
+            <Users className="h-5 w-5" />
+            <span>Monitores Disponíveis</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-muted-foreground mb-4">
+            Veja monitorias com monitores já aprovados e horários
+          </p>
+          <Button size="sm">Ver Monitores</Button>
+        </CardContent>
+      </Card>
     </div>
   );
 

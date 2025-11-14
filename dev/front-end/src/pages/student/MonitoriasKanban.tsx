@@ -42,8 +42,8 @@ export const MonitoriasKanban = () => {
       setError(null);
       
       try {
-        console.log('[Kanban] Calling api.monitorias.list()...');
-        const response = await api.monitorias.list();
+        console.log('[Kanban] Calling api.monitorias.abertas()...');
+        let response: any = await api.monitorias.abertas();
         console.log('[Kanban] API Response:', response);
         console.log('[Kanban] Response type:', typeof response);
         console.log('[Kanban] Is array?', Array.isArray(response));
@@ -64,10 +64,17 @@ export const MonitoriasKanban = () => {
         setMonitorias(processedData);
         
       } catch (e: any) {
-        console.error('[Kanban] Fetch error:', e);
-        console.error('[Kanban] Error message:', e.message);
-        console.error('[Kanban] Error stack:', e.stack);
-        setError(`Erro ao carregar: ${e.message || 'Desconhecido'}`);
+        console.warn('[Kanban] Abertas() failed, trying list() as fallback');
+        try {
+          const response = await api.monitorias.list();
+          let processedData: MonitoriaItem[] = Array.isArray(response)
+            ? response
+            : (response?.results ?? []);
+          setMonitorias(processedData);
+        } catch (e2: any) {
+          console.error('[Kanban] Fetch error:', e2);
+          setError(`Erro ao carregar: ${e2?.message || 'Desconhecido'}`);
+        }
       } finally {
         setLoading(false);
         console.log('[Kanban] Fetch complete');
